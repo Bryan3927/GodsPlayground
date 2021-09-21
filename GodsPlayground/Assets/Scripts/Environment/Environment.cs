@@ -10,7 +10,7 @@ public class Environment : MonoBehaviour {
     public int seed;
 
     [Header ("Sim Speed")]
-    public static float simSpeed = 5.0f;
+    public static float simSpeed = 1.0f;
     [Header ("Trees")]
     public MeshRenderer treePrefab;
     [Range (0, 1)]

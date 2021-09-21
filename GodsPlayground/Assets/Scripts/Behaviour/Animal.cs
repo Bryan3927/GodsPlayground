@@ -90,7 +90,7 @@ public class Animal : LivingEntity {
 
         // Animate movement. After moving a single tile, the animal will be able to choose its next action
         if (animatingMovement) {
-            animatingMovement = AnimateMove (moveSpeedFactor, moveArcHeight, moveArcHeightFactor, moveStartPos, moveTargetPos, moveFromCoord, moveTargetCoord);
+            animatingMovement = AnimateMove();
             if (!animatingMovement)
             {
                 ChooseNextAction();
@@ -235,7 +235,7 @@ public class Animal : LivingEntity {
         }
     }
 
-    public virtual bool AnimateMove (float moveSpeedFactor, float moveArcHeight, float moveArcHeightFactor, Vector3 moveStartPos, Vector3 moveTargetPos, Coord moveFromCoord, Coord moveTargetCoord) {
+    public virtual bool AnimateMove () {
         moveTime = Mathf.Min(1, moveTime + Time.deltaTime * moveSpeed * moveSpeedFactor);
         float height = (1 - 4 * (moveTime - .5f) * (moveTime - .5f)) * moveArcHeight * moveArcHeightFactor;
         transform.position = Vector3.Lerp(moveStartPos, moveTargetPos, moveTime) + Vector3.up * height;

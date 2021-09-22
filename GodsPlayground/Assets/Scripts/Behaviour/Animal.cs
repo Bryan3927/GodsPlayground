@@ -14,25 +14,26 @@ public class Animal : LivingEntity {
     public Color maleColour;
     public Color femaleColour;
 
-    // Settings:
-    protected float timeBetweenActionChoices;
-    protected float moveSpeed;
-    protected float timeToDeathByHunger;
-    protected float timeToDeathByThirst;
-    protected float timeToDeathByHorny;
+    // Virtual settings after being multiplied by Sim Speed
+    protected float 
+        timeBetweenActionChoices,
+        moveSpeed,
+        timeToDeathByHunger,
+        timeToDeathByThirst,
+        timeToDeathByHorny,
+        drinkDuration,
+        eatDuration;
 
-    protected float drinkDuration;
-    protected float eatDuration;
-
-    // used to speed up/slow down game
-    protected float baseTimeBetweenActionChoices = 1;
-    protected float baseMoveSpeed = 1.5f;
-    protected float baseTimeToDeathByHunger = 200;
-    protected float baseTimeToDeathByThirst = 200;
-    protected float baseTimeToDeathByHorny = 200;
-
-    protected float baseDrinkDuration = 6;
-    protected float baseEatDuration = 10;
+    // Base settings, won't be affected by Sim Speed
+    [HideInInspector]
+    public float 
+        baseTimeBetweenActionChoices, 
+        baseMoveSpeed, 
+        baseTimeToDeathByHunger, 
+        baseTimeToDeathByThirst, 
+        baseTimeToDeathByHorny, 
+        baseDrinkDuration, 
+        baseEatDuration;
 
     float criticalPercent = 0.7f;
 
@@ -47,6 +48,9 @@ public class Animal : LivingEntity {
 
     protected LivingEntity foodTarget;
     protected Coord waterTarget;
+
+    // Traits (Fun stuff!)
+    protected List<Trait> traits = new List<Trait>();
 
     // Move data:
     bool animatingMovement;
@@ -65,10 +69,9 @@ public class Animal : LivingEntity {
     const float sqrtTwo = 1.4142f;
     const float oneOverSqrtTwo = 1 / sqrtTwo;
 
-    float simSpeed = Environment.simSpeed;
-
     public override void Init (Coord coord) {
         base.Init (coord);
+        ConstantsUtility.SetConstants(this);
         moveFromCoord = coord;
         genes = Genes.RandomGenes (1);
 
@@ -252,8 +255,15 @@ public class Animal : LivingEntity {
         return true;
     }
 
+    public void GiveTrait(Trait trait)
+    {
+        traits.Add(trait);
+        trait.Apply(this);
+    }
+
     void UpdateSpeeds()
     {
+        float simSpeed = Environment.GetSimSpeed();
         float simSpeedFraction = 1.0f / simSpeed;
         timeBetweenActionChoices = baseTimeBetweenActionChoices * simSpeedFraction;
         moveSpeed = baseMoveSpeed * simSpeed;

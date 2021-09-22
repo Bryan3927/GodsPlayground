@@ -6,8 +6,6 @@ public class Plant : LivingEntity {
     float amountRemaining = 1;
     const float consumeSpeed = 8;
 
-    private float simSpeed = Environment.simSpeed;
-
     private float timeOfDeath;
     private float timeSinceLastRegen;
 
@@ -73,6 +71,7 @@ public class Plant : LivingEntity {
 
     void UpdateSpeeds()
     {
+        float simSpeed = Environment.GetSimSpeed();
         float simSpeedFraction = 1.0f / simSpeed;
 
         rebirthTime = baseRebirthTime * simSpeedFraction;

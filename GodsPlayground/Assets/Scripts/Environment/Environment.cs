@@ -10,7 +10,7 @@ public class Environment : MonoBehaviour {
     public int seed;
 
     [Header ("Sim Speed")]
-    public static float simSpeed = 1.0f;
+    private static float simSpeed = 1.0f;
     [Header ("Trees")]
     public MeshRenderer treePrefab;
     [Range (0, 1)]
@@ -41,6 +41,7 @@ public class Environment : MonoBehaviour {
     TerrainGenerator.TerrainData terrainData;
 
     static Dictionary<Species, Map> speciesMaps;
+    static Dictionary<Species, List<LivingEntity>> allEntities = new Dictionary<Species, List<LivingEntity>>(); 
 
     static Dictionary<Species, int> deathCounter;
     static Dictionary<Species, int> birthCounter;
@@ -50,7 +51,7 @@ public class Environment : MonoBehaviour {
 
         Init ();
         SpawnInitialPopulations ();
-
+        UpgradeBunnies();
     }
 
     void OnDrawGizmos () {
@@ -62,6 +63,16 @@ public class Environment : MonoBehaviour {
             }
         }
         */
+    }
+
+    public static float GetSimSpeed()
+    {
+        return simSpeed;
+    }
+
+    public static void SetSimSpeed(float speed)
+    {
+        simSpeed = speed;
     }
 
     public static void RegisterMove (LivingEntity entity, Coord from, Coord to) {
@@ -372,7 +383,22 @@ public class Environment : MonoBehaviour {
                 entity.Init (coord);
 
                 speciesMaps[entity.species].Add (entity, coord);
+                if (!allEntities.ContainsKey(entity.species))
+                {
+                    allEntities[entity.species] = new List<LivingEntity>();
+                }
+                allEntities[entity.species].Add(entity);
             }
+        }
+    }
+
+    void UpgradeBunnies()
+    {
+        foreach (LivingEntity livingEntity in allEntities[Species.Rabbit])
+        {
+            Animal animal = ((Animal)livingEntity);
+            animal.gameObject.AddComponent<SpeedBoost1>();
+            animal.GiveTrait(animal.GetComponent<SpeedBoost1>());
         }
     }
 

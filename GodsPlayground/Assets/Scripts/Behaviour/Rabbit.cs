@@ -7,15 +7,8 @@ public class Rabbit : Animal {
 
     public override void Init(Coord coord)
     {
-        timeBetweenActionChoices = 1;
-        moveSpeed = 3.0f;
-        timeToDeathByHunger = 200;
-        timeToDeathByThirst = 200;
-
-        drinkDuration = 6;
-        eatDuration = 10;
-
         base.Init(coord);
+        //baseMoveSpeed = 3.0f;
     }
 
     protected override void Update()

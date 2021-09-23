@@ -7,14 +7,6 @@ public class Fox : Animal
 
     public override void Init(Coord coord)
     {
-        timeBetweenActionChoices = 1;
-        moveSpeed = 1.5f;
-        timeToDeathByHunger = 200;
-        timeToDeathByThirst = 200;
-
-        drinkDuration = 6;
-        eatDuration = 10;
-
         base.Init(coord);
     }
 

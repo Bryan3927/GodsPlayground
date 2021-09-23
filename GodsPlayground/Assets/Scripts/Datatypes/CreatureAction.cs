@@ -4,7 +4,10 @@
     Exploring,
     GoingToFood,
     GoingToWater,
+    GoingToMate,
+    WaitingForMate,
     Eating,
     Drinking,
+    Mating,
     SearchingForMate
 }

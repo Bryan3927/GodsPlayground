@@ -21,6 +21,6 @@ public class Rabbit : Animal {
         Die(CauseOfDeath.Eaten);
 
         // affects how much fox hunger is satiated by eating a rabbit
-        return 0.75f;
+        return 0.15f;
     }
 }

@@ -10,7 +10,7 @@ public class Environment : MonoBehaviour {
     public int seed;
 
     [Header ("Sim Speed")]
-    private static float simSpeed = 1.0f;
+    private static float simSpeed = 3.0f;
     [Header ("Trees")]
     public MeshRenderer treePrefab;
     [Range (0, 1)]
@@ -34,6 +34,9 @@ public class Environment : MonoBehaviour {
     static Dictionary<Species, List<Species>> preyBySpecies;
     static Dictionary<Species, List<Species>> predatorsBySpecies;
 
+    public Animal rabbitPrefab;
+    public Animal foxPrefab;
+
     // array of visible tiles from any tile; value is Coord.invalid if no visible water tile
     static Coord[, ] closestVisibleWaterMap;
 
@@ -46,12 +49,14 @@ public class Environment : MonoBehaviour {
     static Dictionary<Species, int> deathCounter;
     static Dictionary<Species, int> birthCounter;
 
+    public GameHandler gameHandler;
+
     void Start () {
         prng = new System.Random ();
 
         Init ();
         SpawnInitialPopulations ();
-        UpgradeBunnies();
+        // UpgradeBunnies();
     }
 
     void OnDrawGizmos () {
@@ -392,14 +397,28 @@ public class Environment : MonoBehaviour {
         }
     }
 
-    void UpgradeBunnies()
+    public void SpawnBaby(Animal animal)
     {
+        Animal animalPrefab = (animal.species == Species.Rabbit) ? rabbitPrefab : foxPrefab;
+        var entity = Instantiate(animalPrefab);
+        entity.transform.localScale = Vector3.one * 0.6f;
+        entity.Init(animal.coord);
+        RegisterBirth(entity);
+        allEntities[entity.species].Add(entity);
+    }
+
+    public void UpgradeBunnies(Trait trait)
+    {
+        int counter = 0;
         foreach (LivingEntity livingEntity in allEntities[Species.Rabbit])
         {
             Animal animal = ((Animal)livingEntity);
-            animal.gameObject.AddComponent<SpeedBoost1>();
-            animal.GiveTrait(animal.GetComponent<SpeedBoost1>());
+            //animal.gameObject.AddComponent<Trait>();
+            animal.GiveTrait(trait);
+            counter++;
         }
+        Debug.Log("Successfully upgraded " + counter + " bunnies");
+        //gameHandler.StartNextRound();
     }
 
     void LogPredatorPreyRelationships () {

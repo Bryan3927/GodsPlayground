@@ -58,8 +58,16 @@ MonoBehaviour:
   currentAction: 0
   maleColour: {r: 0, g: 0, b: 0, a: 0}
   femaleColour: {r: 0, g: 0, b: 0, a: 0}
+  baseTimeBetweenActionChoices: 0
+  baseMoveSpeed: 0
+  baseTimeToDeathByHunger: 0
+  baseTimeToDeathByThirst: 0
+  baseTimeToDeathByHorny: 0
+  baseDrinkDuration: 0
+  baseEatDuration: 0
   hunger: 0
   thirst: 0
+  horny: 0
 --- !u!1001 &322534139445717557
 PrefabInstance:
   m_ObjectHideFlags: 0

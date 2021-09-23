@@ -14,6 +14,10 @@ public class ConstantsUtility : MonoBehaviour
     public readonly static float baseDrinkDuration = 6;
     public readonly static float baseEatDuration = 10;
 
+    public readonly static float baseTimeToGrow = 30.0f;
+    public readonly static float baseMateTime = 10.0f;
+    public readonly static float baseGestationPeriod = 20.0f;
+
     public static void SetConstants(Animal animal)
     {
         animal.baseTimeBetweenActionChoices = baseTimeBetweenActionChoices;
@@ -24,6 +28,10 @@ public class ConstantsUtility : MonoBehaviour
 
         animal.baseDrinkDuration = baseDrinkDuration;
         animal.baseEatDuration = baseEatDuration;
+
+        animal.baseTimeToGrow = baseTimeToGrow;
+        animal.baseMateTime = baseMateTime;
+        animal.baseGestationPeriod = baseGestationPeriod;
 
     }
 

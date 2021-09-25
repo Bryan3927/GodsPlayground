@@ -10,7 +10,7 @@ public class Environment : MonoBehaviour {
     public int seed;
 
     [Header ("Sim Speed")]
-    private static float simSpeed = 3.0f;
+    private static float simSpeed = 2.0f;
     [Header ("Trees")]
     public MeshRenderer treePrefab;
     [Range (0, 1)]
@@ -86,6 +86,7 @@ public class Environment : MonoBehaviour {
 
     public static void RegisterDeath (LivingEntity entity) {
         speciesMaps[entity.species].Remove (entity, entity.coord);
+        allEntities[entity.species].Remove(entity);
     }
 
     public static void RegisterBirth (LivingEntity entity)

@@ -61,6 +61,10 @@ public class Animal : LivingEntity {
     public float thirst;
     public float horny;
 
+    public StatsBar hungerBar;
+    public StatsBar thirstBar;
+    public StatsBar hornyBar;
+
     protected LivingEntity foodTarget;
     protected Coord waterTarget;
     protected Animal mateTarget = null;
@@ -95,6 +99,10 @@ public class Animal : LivingEntity {
 
         isMale = genes.isMale;
 
+        hungerBar.SetMaxStat();
+        thirstBar.SetMaxStat();
+        hornyBar.SetMaxStat();
+
         ChooseNextAction ();
     }
 
@@ -108,6 +116,10 @@ public class Animal : LivingEntity {
         hunger += Time.deltaTime * 1 / timeToDeathByHunger;
         thirst += Time.deltaTime * 1 / timeToDeathByThirst;
         if (!pregnant) horny += Time.deltaTime * 1 / timeToDeathByHorny;
+
+        hungerBar.SetStat(hunger);
+        thirstBar.SetStat(thirst);
+        hornyBar.SetStat(horny);
 
         // Animate movement. After moving a single tile, the animal will be able to choose its next action
         if (animatingMovement) {

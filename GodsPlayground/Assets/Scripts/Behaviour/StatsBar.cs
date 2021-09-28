@@ -11,4 +11,16 @@ public class StatsBar : MonoBehaviour
     public void SetMaxStat() => slider.maxValue = 1;
 
     public void SetStat(float stat) => slider.value = stat;
+
+    private void Update()
+    {
+        this.transform.LookAt(Camera.main.transform);
+        if (Vector3.Distance(this.transform.position, Camera.main.transform.position) < 10.0f)
+        {
+            this.transform.localScale = Vector3.one;
+        } else
+        {
+            this.transform.localScale = Vector3.zero;
+        }
+    }
 }

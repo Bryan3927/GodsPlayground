@@ -63,7 +63,7 @@ public class Animal : LivingEntity {
 
     protected LivingEntity foodTarget;
     protected Coord waterTarget;
-    protected LivingEntity mateTarget = null;
+    protected Animal mateTarget = null;
 
     // Traits (Fun stuff!)
     protected List<Trait> traits = new List<Trait>();
@@ -107,7 +107,7 @@ public class Animal : LivingEntity {
         // Increase hunger and thirst over time
         hunger += Time.deltaTime * 1 / timeToDeathByHunger;
         thirst += Time.deltaTime * 1 / timeToDeathByThirst;
-        horny += Time.deltaTime * 1 / timeToDeathByHorny;
+        if (!pregnant) horny += Time.deltaTime * 1 / timeToDeathByHorny;
 
         // Animate movement. After moving a single tile, the animal will be able to choose its next action
         if (animatingMovement) {
@@ -166,7 +166,7 @@ public class Animal : LivingEntity {
         {
             FindWater();
         } else if (currentlyMating && hunger < criticalPercent && thirst < criticalPercent) {
-            // FindMate();
+            //FindMate();
         } 
         else if ((hunger >= thirst && hunger >= horny && hunger > 0.1) || hunger > criticalPercent)
         {
@@ -174,7 +174,7 @@ public class Animal : LivingEntity {
         } else if ((thirst >= hunger && thirst >= horny && thirst > 0.1) || thirst > criticalPercent)
         {
             FindWater();
-        } else if (!pregnant && (horny >= hunger && horny >= thirst && horny > 0.1))
+        } else if (!pregnant && (horny > hunger && horny > thirst && horny > 0.1))
         {
             FindMate();
         } else
@@ -213,7 +213,13 @@ public class Animal : LivingEntity {
     protected virtual void FindMate()
     {
         List<Animal> potentialMates = Environment.SensePotentialMates(coord, this);
+        // If no mate target, search for mate
         if (!mateTarget) currentAction = CreatureAction.SearchingForMate;
+        // If mate target exists and this is not a waiting female, create path to mate target
+        if (mateTarget && currentAction != CreatureAction.WaitingForMate)
+        {
+        } 
+        // else if no mate target and this is male, look for mate target
         if (genes.isMale && !mateTarget)
         {
             foreach (Animal female in potentialMates)
@@ -227,31 +233,6 @@ public class Animal : LivingEntity {
                 }
             }
         }
-
-        /*
-        if (potentialMates.Count == 0)
-        {
-            currentAction = CreatureAction.SearchingForMate;
-        } else
-        {
-            if (genes.isMale && !mateTarget)
-            {
-                foreach (Animal female in potentialMates)
-                {
-                    bool accepted = female.AskToMate(this);
-                    if (accepted)
-                    {
-                        currentAction = CreatureAction.GoingToMate;
-                        mateTarget = female;
-                        CreatePath(female.coord);
-                    }
-                }
-            } else
-            {
-                currentAction = CreatureAction.SearchingForMate;
-            }
-        }
-        */
     }
 
     public bool AskToMate(Animal male)
@@ -264,6 +245,11 @@ public class Animal : LivingEntity {
         }
         mateTarget = male;
         acceptedMateRequest = true;
+        return true;
+    }
+
+    public bool CheckExists()
+    {
         return true;
     }
 
@@ -308,6 +294,10 @@ public class Animal : LivingEntity {
                 {
                     StartMoveToCoord(path[pathIndex]);
                     pathIndex++;
+                    if (pathIndex >= path.Length)
+                    {
+                        currentAction = CreatureAction.SearchingForMate;
+                    } 
                 }
                 break;
             case CreatureAction.WaitingForMate:

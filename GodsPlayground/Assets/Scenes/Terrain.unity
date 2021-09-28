@@ -2046,7 +2046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 0
   centralize: 0
-  worldSize: 60
+  worldSize: 100
   waterDepth: 0.5
   edgeDepth: 1
   terrainNoise:

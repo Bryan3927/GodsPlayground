@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ShortenGestationPeriod : Trait
 {
+    public override string Name => "Shorten Gestation Period";
+
+    public override string Description => "Decreases the gestation period of the animal by 20%";
+
     public override void Mutate()
     {
         throw new System.NotImplementedException();

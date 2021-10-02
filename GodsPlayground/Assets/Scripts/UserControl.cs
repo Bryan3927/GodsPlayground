@@ -20,8 +20,8 @@ public class UserControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontalTranslation = Input.GetAxis("Horizontal") * horizontalSpeed;
-        float verticalTranslation = Input.GetAxis("Vertical") * verticalSpeed;
+        float horizontalTranslation = Input.GetAxis("Horizontal") * (horizontalSpeed * Mathf.Clamp01((2 + transform.position.y) / 20.0f));
+        float verticalTranslation = Input.GetAxis("Vertical") * (verticalSpeed * Mathf.Clamp01((2 + transform.position.y) / 20.0f));
         float zoomTranslation = Input.GetAxis("Zoom") * zoomSpeed;
 
         horizontalTranslation *= Time.deltaTime;

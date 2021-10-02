@@ -5,10 +5,10 @@ using UnityEngine;
 // Applies a 20% speed buff
 public class SpeedBoost1 : Trait
 {
-    public SpeedBoost1()
-    {
 
-    }
+    public override string Name => "Speed Boost v1";
+
+    public override string Description => "Increases the speed of the animal by 20%";
 
     public override void Mutate()
     {

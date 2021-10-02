@@ -12,7 +12,7 @@ public class GameHandler : MonoBehaviour
     private List<GameObject> cards = new List<GameObject>();
 
     float gameStartTime;
-    float waitTime = 10.0f;
+    float waitTime = 50.0f;
     float lastSimSpeed;
 
     private int activeTimeStep = 0;
@@ -73,6 +73,7 @@ public class GameHandler : MonoBehaviour
             traitName.text = trait.Name;
 
             Button chooseButton = cards[i].transform.GetChild(1).GetComponent<Button>();
+            // TODO: Currently we're only modifying bunnies. This needs to change to upgrade each species alternating between
             chooseButton.onClick.AddListener(delegate { environment.UpgradeBunnies(trait); });
         }
     } 

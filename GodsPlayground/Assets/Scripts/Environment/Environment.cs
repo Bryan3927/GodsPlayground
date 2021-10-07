@@ -18,6 +18,7 @@ public class Environment : MonoBehaviour {
 
     [Header ("Populations")]
     public Population[] initialPopulations;
+    public LineGraphManager populationGraph;
 
     [Header ("Debug")]
     public bool showMapDebug;
@@ -51,6 +52,10 @@ public class Environment : MonoBehaviour {
 
     public GameHandler gameHandler;
 
+    private float worldClock;
+    private float updateIncrement = 5f;
+    private float updateTime = 10f;
+
     void Start () {
         prng = new System.Random ();
 
@@ -68,6 +73,17 @@ public class Environment : MonoBehaviour {
             }
         }
         */
+    }
+
+    private void Update()
+    {
+        worldClock = Time.time;
+        if (worldClock > updateTime)
+        {
+            Debug.Log("Updating graph");
+            populationGraph.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
+            updateTime += updateIncrement;
+        }
     }
 
     public static float GetSimSpeed()
@@ -212,6 +228,9 @@ public class Environment : MonoBehaviour {
     // Call terrain generator and cache useful info
     void Init () {
         var sw = System.Diagnostics.Stopwatch.StartNew ();
+
+        worldClock = Time.time;
+        Debug.Log("Initial time is " + worldClock);
 
         var terrainGenerator = FindObjectOfType<TerrainGenerator> ();
         terrainData = terrainGenerator.Generate ();

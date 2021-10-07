@@ -24,7 +24,8 @@ public class LineGraphManager : MonoBehaviour {
 	public List<GraphData> graphDataPlayer1 = new List<GraphData>();
 	public List<GraphData> graphDataPlayer2 = new List<GraphData>();
 
-	private GraphData gd;
+	private GraphData gdPrey = new GraphData();
+	private GraphData gdPredator = new GraphData();
 	private float highestValue = 56;
 
 	public Transform origin;
@@ -39,19 +40,37 @@ public class LineGraphManager : MonoBehaviour {
 	void Start(){
 
 		// adding random data
+		
 		int index = 120;
 		for(int i = 0; i < index; i++){
 			GraphData gd = new GraphData();
-			gd.marbles = Random.Range(10,47);
+			gd.marbles = 0;
 			graphDataPlayer1.Add(gd);
 			GraphData gd2 = new GraphData();
-			gd2.marbles = Random.Range(10,47);
+			gd2.marbles = 0;
 			graphDataPlayer2.Add(gd2);
 		}
+		
 
 		// showing graph
 		ShowGraph();
 	}
+
+	public void UpdatePopulations(int preyPopulation, int predatorPopulation)
+    {
+		Debug.Log("Updating graph with " + preyPopulation + " bunnies and " + predatorPopulation + " foxes");
+		gdPrey = new GraphData();
+		gdPrey.marbles = preyPopulation;
+		gdPredator = new GraphData();
+		gdPredator.marbles = predatorPopulation;
+
+		graphDataPlayer1.RemoveAt(0);
+		graphDataPlayer2.RemoveAt(0);
+		graphDataPlayer1.Add(gdPrey);
+		graphDataPlayer2.Add(gdPredator);
+
+		ShowGraph();
+    }
 	
 	public void ShowData(GraphData[] gdlist,int playerNum,float gap) {
 
@@ -85,7 +104,7 @@ public class LineGraphManager : MonoBehaviour {
 
 		ClearGraph();
 
-		if(graphDataPlayer1.Count >= 1 && graphDataPlayer2.Count >= 1){
+		if(graphDataPlayer1.Count >= 1 || graphDataPlayer2.Count >= 1){
 			holder = Instantiate(HolderPrefb,Vector3.zero,Quaternion.identity) as GameObject;
 			holder.name = "h2";
 
@@ -203,7 +222,7 @@ public class LineGraphManager : MonoBehaviour {
 
 			while(Vector3.Distance(p.transform.position,endpoint) > 0.2f)
 			{
-				float step = 5 * Time.deltaTime;
+				float step = 10 * Time.deltaTime;
 				p.transform.position = Vector3.MoveTowards(p.transform.position, endpoint, step);
 				lineRenderer.SetPosition(0, startpoint);
 				lineRenderer.SetPosition(1, p.transform.position);
@@ -275,7 +294,7 @@ public class LineGraphManager : MonoBehaviour {
 
 			while(Vector3.Distance(p.transform.position,endpoint) > 0.2f)
 			{
-				float step = 5 * Time.deltaTime;
+				float step = 10 * Time.deltaTime;
 				p.transform.position = Vector3.MoveTowards(p.transform.position, endpoint, step);
 				lineRenderer.SetPosition(0, startpoint);
 				lineRenderer.SetPosition(1, p.transform.position);

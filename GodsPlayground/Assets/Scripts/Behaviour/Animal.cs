@@ -133,12 +133,11 @@ public class Animal : LivingEntity {
             float timeSinceLastActionChoice = Time.time - lastActionChooseTime;
             if (timeSinceLastActionChoice > timeBetweenActionChoices) {
                 ChooseNextAction ();
+                //traits default override unless conditionally specified within each trait apply method
+                foreach(Trait t in traits){
+                    t.Apply(this);
+                }
             }
-        }
-
-        //traits default override unless conditionally specified within each trait apply method
-        foreach(Trait t in traits){
-            t.Apply(this);
         }
 
         if (pregnant && Time.time - pregnantTime > gestationPeriod)

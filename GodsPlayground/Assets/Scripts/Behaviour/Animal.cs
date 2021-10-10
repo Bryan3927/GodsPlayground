@@ -136,6 +136,11 @@ public class Animal : LivingEntity {
             }
         }
 
+        //traits default override unless conditionally specified within each trait apply method
+        foreach(Trait t in traits){
+            t.Apply(this);
+        }
+
         if (pregnant && Time.time - pregnantTime > gestationPeriod)
         {
             HandleBirth();
@@ -418,7 +423,7 @@ public class Animal : LivingEntity {
     public void GiveTrait(Trait trait)
     {
         traits.Add(trait);
-        trait.Apply(this);
+        // trait.Apply(this);
     }
 
     void HandleBirth()

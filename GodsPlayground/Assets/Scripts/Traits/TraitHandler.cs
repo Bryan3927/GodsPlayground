@@ -14,4 +14,14 @@ public class TraitHandler : MonoBehaviour
     {
 
     }
+
+    public List<Trait> GetRandomTraits(List<Trait> traits)
+    {
+        int numTraits = traits.Count;
+        if (numTraits < 3)
+        {
+            Debug.LogError("Not enough traits for UI!");
+        }
+        return new List<Trait>();
+    }
 }

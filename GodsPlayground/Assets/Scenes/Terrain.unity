@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4436967, g: 0.49303168, b: 0.57258147, a: 1}
+  m_IndirectSpecularColor: {r: 0.44369635, g: 0.49303085, b: 0.57258064, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1247,6 +1247,7 @@ MonoBehaviour:
   verticalSpeed: 20
   zoomSpeed: 20
   TerrainGenerator: {fileID: 1693203946}
+  lineGraphScript: {fileID: 1572459556}
 --- !u!1 &990208983
 GameObject:
   m_ObjectHideFlags: 0
@@ -1994,10 +1995,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.05
-    y: 0.05
-    width: 0.25
-    height: 0.25
+    x: 0
+    y: 0.5
+    width: 0.4
+    height: 0.5
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60

@@ -25,7 +25,8 @@ public class Animal : LivingEntity {
         eatDuration,
         timeToGrow,
         mateTime,
-        gestationPeriod;
+        gestationPeriod,
+        mateWaitTime;
 
     // Base settings, won't be affected by Sim Speed
     [HideInInspector]
@@ -39,7 +40,8 @@ public class Animal : LivingEntity {
         baseEatDuration,
         baseTimeToGrow,
         baseMateTime,
-        baseGestationPeriod;
+        baseGestationPeriod,
+        baseMateWaitTime;
 
     float scale = 0.6f;
     float mateStartTime;
@@ -88,6 +90,7 @@ public class Animal : LivingEntity {
     float lastActionChooseTime;
     const float sqrtTwo = 1.4142f;
     const float oneOverSqrtTwo = 1 / sqrtTwo;
+    float waitingForMate;
 
     public override void Init (Coord coord) {
         base.Init (coord);
@@ -255,9 +258,16 @@ public class Animal : LivingEntity {
         {
             return false;
         }
+        waitingForMate = Time.time;
         mateTarget = male;
         acceptedMateRequest = true;
         return true;
+    }
+
+    public void CancelMate()
+    {
+        mateTarget = null;
+        acceptedMateRequest = false;
     }
 
     public bool CheckExists()
@@ -313,7 +323,10 @@ public class Animal : LivingEntity {
                 }
                 break;
             case CreatureAction.WaitingForMate:
-                if (Coord.AreNeighbours(coord, mateTarget.coord))
+                if (Time.time - waitingForMate > mateWaitTime)
+                {
+                    currentAction = CreatureAction.Exploring;
+                } else if (Coord.AreNeighbours(coord, mateTarget.coord))
                 {
                     LookAt(mateTarget.coord);
                     currentAction = CreatureAction.Mating;
@@ -430,6 +443,7 @@ public class Animal : LivingEntity {
         timeToGrow = baseTimeToGrow * simSpeedFraction;
         mateTime = baseMateTime * simSpeedFraction;
         gestationPeriod = baseGestationPeriod * simSpeedFraction;
+        mateWaitTime = baseMateWaitTime * simSpeedFraction;
     }
 
     void OnDrawGizmosSelected () {

@@ -72,7 +72,7 @@ public class Animal : LivingEntity {
     protected Animal mateTarget = null;
 
     // Traits (Fun stuff!)
-    protected List<Trait> traits = new List<Trait>();
+    public List<Trait> traits = new List<Trait>();
 
     // Move data:
     bool animatingMovement;

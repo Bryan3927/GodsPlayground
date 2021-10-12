@@ -60,7 +60,15 @@ public class GameHandler : MonoBehaviour
     private List<Trait> DecideNextTraits()
     {
         // TODO: Logic to select traits based on the round
-        return new List<Trait>() { new ShortenGestationPeriod(), new SpeedBoost1(), new ShortenMateTime() };
+        Transform card1 = UI.transform.GetChild(0);
+        Transform card2 = UI.transform.GetChild(1);
+        Transform card3 = UI.transform.GetChild(2);
+
+        ShortenGestationPeriod sgp = card1.gameObject.AddComponent<ShortenGestationPeriod>() as ShortenGestationPeriod;
+        SpeedBoost1 sp1 = card2.gameObject.AddComponent<SpeedBoost1>() as SpeedBoost1;
+        ShortenMateTime smt = card3.gameObject.AddComponent<ShortenMateTime>() as ShortenMateTime;
+
+        return new List<Trait>() { sgp, sp1, smt };
     }
 
     private void FormatUI(List<Trait> roundTraits)

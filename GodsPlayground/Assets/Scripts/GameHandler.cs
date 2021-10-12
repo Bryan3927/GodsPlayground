@@ -60,10 +60,10 @@ public class GameHandler : MonoBehaviour
         Transform card3 = UI.transform.GetChild(2);
 
         ShortenGestationPeriod sgp = card1.gameObject.AddComponent<ShortenGestationPeriod>() as ShortenGestationPeriod;
-        SpeedBoost1 sp1 = card2.gameObject.AddComponent<SpeedBoost1>() as SpeedBoost1;
+        SpeedBoost2 sp2 = card2.gameObject.AddComponent<SpeedBoost2>() as SpeedBoost2;
         ShortenMateTime smt = card3.gameObject.AddComponent<ShortenMateTime>() as ShortenMateTime;
 
-        return new List<Trait>() { sgp, sp1, smt };
+        return new List<Trait>() { sgp, sp2, smt };
     }
 
     private void FormatUI(List<Trait> roundTraits)

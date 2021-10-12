@@ -8,6 +8,7 @@ public class GameHandler : MonoBehaviour
 
     public GameObject UI;
     public Environment environment;
+    public Timer timer;
 
     private List<GameObject> cards = new List<GameObject>();
 
@@ -26,11 +27,13 @@ public class GameHandler : MonoBehaviour
 
         UI.SetActive(false);
         gameStartTime = Time.time;
+        timer.SetTimer(waitTime);
     }
 
     // Update is called once per frame
     void Update()
     {
+        timer.DisplayTime();
         if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy)
         {
             activeTimeStep++;
@@ -50,6 +53,8 @@ public class GameHandler : MonoBehaviour
         UI.SetActive(false);
         Environment.SetSimSpeed(lastSimSpeed);
         gameStartTime = Time.time;
+        timer.SetTimer(waitTime);
+        timer.StartTimer();
     }
 
     private List<Trait> DecideNextTraits()

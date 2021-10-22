@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Animal : LivingEntity {
 
-    public const int maxViewDistance = 10;
+    public int maxViewDistance = 10;
 
     [EnumFlags]
     public Species diet;
@@ -45,12 +46,12 @@ public class Animal : LivingEntity {
 
     float scale = 0.6f;
     float mateStartTime;
-    float criticalPercent = 0.7f;
+    protected float criticalPercent = 0.7f;
 
-    bool pregnant = false;
+    protected bool pregnant = false;
     float pregnantTime;
 
-    bool acceptedMateRequest = false;
+    protected bool acceptedMateRequest = false;
 
     public bool isMale;
 
@@ -69,7 +70,7 @@ public class Animal : LivingEntity {
 
     protected LivingEntity foodTarget;
     protected Coord waterTarget;
-    protected Animal mateTarget = null;
+    public Animal mateTarget = null;
 
     // Traits (Fun stuff!)
     public List<Trait> traits = new List<Trait>();
@@ -87,10 +88,12 @@ public class Animal : LivingEntity {
     int pathIndex;
 
     // Other
-    float lastActionChooseTime;
+    protected float lastActionChooseTime;
     const float sqrtTwo = 1.4142f;
     const float oneOverSqrtTwo = 1 / sqrtTwo;
     float waitingForMate;
+
+    List<Animal> potentialMatches = new List<Animal>();
 
     public override void Init (Coord coord) {
         base.Init (coord);
@@ -171,10 +174,11 @@ public class Animal : LivingEntity {
 
         // Decide next action:
         // Eat if (more hungry than thirsty) or (currently eating and not critically thirsty)
-        bool currentlyEating = currentAction == CreatureAction.Eating && foodTarget && hunger > 0;
-        bool currentlyDrinking = currentAction == CreatureAction.Drinking && thirst > 0;
-        bool currentlyMating = currentAction == CreatureAction.Mating && horny > 0;
+        bool currentlyEating = currentAction == CreatureAction.Eating && foodTarget && hunger > 0.01;
+        bool currentlyDrinking = currentAction == CreatureAction.Drinking && thirst > 0.01;
+        bool currentlyMating = currentAction == CreatureAction.Mating && horny > 0.01;
         bool currentlyWaiting = currentAction == CreatureAction.WaitingForMate;
+
         if ((currentlyWaiting || acceptedMateRequest) && hunger < criticalPercent && thirst < criticalPercent)
         {
             currentAction = CreatureAction.WaitingForMate;
@@ -218,7 +222,7 @@ public class Animal : LivingEntity {
     }
 
     protected virtual void FindWater () {
-        Coord waterTile = Environment.SenseWater (coord);
+        Coord waterTile = Environment.SenseWater (coord, this);
         if (waterTile != Coord.invalid) {
             currentAction = CreatureAction.GoingToWater;
             waterTarget = waterTile;
@@ -232,46 +236,95 @@ public class Animal : LivingEntity {
     protected virtual void FindMate()
     {
         List<Animal> potentialMates = Environment.SensePotentialMates(coord, this);
-        // If no mate target, search for mate
-        if (!mateTarget) currentAction = CreatureAction.SearchingForMate;
+
         // If mate target exists and this is not a waiting female, create path to mate target
         if (mateTarget && currentAction != CreatureAction.WaitingForMate)
         {
+            // CreatePath(mateTarget.coord);
         } 
-        // else if no mate target and this is male, look for mate target
-        if (genes.isMale && !mateTarget)
+        // else if no mate target and this is a male, look for mate target
+        else if (genes.isMale && potentialMatches.Count > 0)
         {
-            foreach (Animal female in potentialMates)
+            Animal[] copy = new Animal[potentialMatches.Count];
+            potentialMatches.CopyTo(copy);
+            foreach (Animal female in copy)
             {
-                bool accepted = female.AskToMate(this);
-                if (accepted)
+                if (currentAction == CreatureAction.GoingToMate)
                 {
-                    currentAction = CreatureAction.GoingToMate;
-                    mateTarget = female;
+                    female.CancelMate();
+                    continue;
+                }
+                try
+                {
                     CreatePath(female.coord);
+                    if (path == null)
+                    {
+                        female.CancelMate();
+                        potentialMatches.Remove(female);
+                        continue;
+                    }
+                    mateTarget = female;
+                    currentAction = CreatureAction.GoingToMate;
+                    potentialMatches.Clear();
+                }
+                catch (Exception)
+                {
+                    continue;
                 }
             }
+        } else if (genes.isMale)
+        {
+            currentAction = CreatureAction.SearchingForMate;
+            foreach (Animal female in potentialMates)
+            {
+                female.AskToMate(this);
+            }
+        } else if (!genes.isMale && potentialMatches.Count > 0)
+        {
+            Animal[] copy = new Animal[potentialMatches.Count];
+            potentialMatches.CopyTo(copy);
+            foreach (Animal male in copy)
+            {
+                try
+                {
+                    // Accept/Reject logic
+                    CreatePath(male.coord);
+                    if (path == null)
+                    {
+                        potentialMatches.Remove(male);
+                        continue;
+                    }
+                    male.AskToMate(this);
+                    mateTarget = male;
+                    currentAction = CreatureAction.WaitingForMate;
+                    potentialMatches.Clear();
+                    waitingForMate = Time.time;
+                    break;
+                } catch (Exception)
+                {
+                    continue;
+                }
+            }
+        } 
+        else
+        {
+            currentAction = CreatureAction.SearchingForMate;
         }
     }
 
-    public bool AskToMate(Animal male)
+    public void AskToMate(Animal male)
     {
         // TODO: Add rejection logic if needed/desired
         //LookAt(male.coord);
-        if (acceptedMateRequest)
-        {
-            return false;
-        }
-        waitingForMate = Time.time;
-        mateTarget = male;
-        acceptedMateRequest = true;
-        return true;
+
+        potentialMatches.Add(male);
     }
 
     public void CancelMate()
     {
         mateTarget = null;
         acceptedMateRequest = false;
+        currentAction = CreatureAction.Exploring;
     }
 
     public bool CheckExists()
@@ -297,7 +350,14 @@ public class Animal : LivingEntity {
                     LookAt (foodTarget.coord);
                     currentAction = CreatureAction.Eating;
                 } else {
-                    StartMoveToCoord (path[pathIndex]);
+                    try
+                    {
+                        StartMoveToCoord(path[pathIndex]);
+                    } catch (Exception)
+                    {
+                        Debug.LogError("Failed to move towards food. Food target is: " + foodTarget + " and path should be is: " + EnvironmentUtility.GetPath(coord.x, coord.y, foodTarget.coord.x, foodTarget.coord.y));
+                    } 
+                    
                     pathIndex++;
                 }
                 break;
@@ -330,11 +390,11 @@ public class Animal : LivingEntity {
                 if (Time.time - waitingForMate > mateWaitTime)
                 {
                     currentAction = CreatureAction.Exploring;
+                    this.CancelMate();
                 } else if (Coord.AreNeighbours(coord, mateTarget.coord))
                 {
                     LookAt(mateTarget.coord);
                     currentAction = CreatureAction.Mating;
-                    acceptedMateRequest = false;
                     mateStartTime = Time.time;
                 } else
                 {
@@ -392,7 +452,7 @@ public class Animal : LivingEntity {
             if (Time.time - mateStartTime > mateTime)
             {
                 horny = 0;
-                mateTarget = null;
+                this.CancelMate();
                 if (!genes.isMale)
                 {
                     pregnant = true;
@@ -452,7 +512,7 @@ public class Animal : LivingEntity {
 
     void OnDrawGizmosSelected () {
         if (Application.isPlaying) {
-            var surroundings = Environment.Sense (coord);
+            var surroundings = Environment.Sense (coord, Species.Plant, this);
             Gizmos.color = Color.white;
             if (surroundings.nearestFoodSource != null) {
                 Gizmos.DrawLine (transform.position, surroundings.nearestFoodSource.transform.position);

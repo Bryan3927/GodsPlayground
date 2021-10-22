@@ -110,11 +110,11 @@ public class Environment : MonoBehaviour {
         speciesMaps[entity.species].Add(entity, entity.coord);
     }
 
-    public static Coord SenseWater (Coord coord) {
+    public static Coord SenseWater (Coord coord, Animal self) {
         var closestWaterCoord = closestVisibleWaterMap[coord.x, coord.y];
         if (closestWaterCoord != Coord.invalid) {
             float sqrDst = (tileCentres[coord.x, coord.y] - tileCentres[closestWaterCoord.x, closestWaterCoord.y]).sqrMagnitude;
-            if (sqrDst <= Animal.maxViewDistance * Animal.maxViewDistance) {
+            if (sqrDst <= self.maxViewDistance * self.maxViewDistance) {
                 return closestWaterCoord;
             }
         }
@@ -129,7 +129,7 @@ public class Environment : MonoBehaviour {
 
             Map speciesMap = speciesMaps[prey[i]];
 
-            foodSources.AddRange (speciesMap.GetEntities (coord, Animal.maxViewDistance));
+            foodSources.AddRange (speciesMap.GetEntities (coord, self.maxViewDistance));
         }
 
         // Sort food sources based on preference function
@@ -149,7 +149,7 @@ public class Environment : MonoBehaviour {
     // Return list of animals of the same species, with the opposite gender, who are also searching for a mate
     public static List<Animal> SensePotentialMates (Coord coord, Animal self) {
         Map speciesMap = speciesMaps[self.species];
-        List<LivingEntity> visibleEntities = speciesMap.GetEntities (coord, Animal.maxViewDistance);
+        List<LivingEntity> visibleEntities = speciesMap.GetEntities (coord, self.maxViewDistance);
         var potentialMates = new List<Animal> ();
 
         for (int i = 0; i < visibleEntities.Count; i++) {
@@ -161,14 +161,25 @@ public class Environment : MonoBehaviour {
             }
         }
 
-        return potentialMates;
+        List<Animal> visiblePotentialMates = new List<Animal>();
+        for (int i = 0; i < potentialMates.Count; i++)
+        {
+            Coord targetCoord = potentialMates[i].coord;
+            if (EnvironmentUtility.TileIsVisibile(coord.x, coord.y, targetCoord.x, targetCoord.y))
+            {
+                visiblePotentialMates.Add(potentialMates[i]);
+            }
+        }
+
+        return visiblePotentialMates;
     }
 
-    public static Surroundings Sense (Coord coord) {
-        var closestPlant = speciesMaps[Species.Plant].ClosestEntity (coord, Animal.maxViewDistance);
+    public static Surroundings Sense (Coord coord, Species target, Animal self) {
+        var closestPlant = speciesMaps[target].ClosestEntity (coord, self.maxViewDistance);
         var surroundings = new Surroundings ();
         surroundings.nearestFoodSource = closestPlant;
-        surroundings.nearestWaterTile = closestVisibleWaterMap[coord.x, coord.y];
+        var closestWaterCoord = closestVisibleWaterMap[coord.x, coord.y];
+        surroundings.nearestWaterTile = closestWaterCoord;
 
         return surroundings;
     }
@@ -304,7 +315,7 @@ public class Environment : MonoBehaviour {
         // Generate offsets within max view distance, sorted by distance ascending
         // Used to speed up per-tile search for closest water tile
         List<Coord> viewOffsets = new List<Coord> ();
-        int viewRadius = Animal.maxViewDistance;
+        int viewRadius = 10; // TODO: FIX LATER
         int sqrViewRadius = viewRadius * viewRadius;
         for (int offsetY = -viewRadius; offsetY <= viewRadius; offsetY++) {
             for (int offsetX = -viewRadius; offsetX <= viewRadius; offsetX++) {

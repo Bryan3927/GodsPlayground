@@ -217,8 +217,11 @@ public class LineGraphManager : MonoBehaviour {
 			LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
 			
 			lineRenderer.material = bluemat;
-			lineRenderer.SetWidth(lrWidth, lrWidth);
-			lineRenderer.SetVertexCount(2);
+			lineRenderer.startWidth = lrWidth;
+			lineRenderer.endWidth = lrWidth;
+			// lineRenderer.SetWidth(lrWidth, lrWidth);
+			lineRenderer.positionCount = 2;
+			// lineRenderer.SetVertexCount(2);
 
 			while(Vector3.Distance(p.transform.position,endpoint) > 0.2f)
 			{

@@ -11,5 +11,11 @@ public abstract class Trait : MonoBehaviour
 
     public abstract void Apply(Animal animal);
 
+    public abstract void InteractionApply(Animal animal);
+
+    public abstract void ChooseNextActionApply(Animal animal);
+
+    public abstract void ActApply(Animal animal);
+
     public abstract void Mutate();
 }

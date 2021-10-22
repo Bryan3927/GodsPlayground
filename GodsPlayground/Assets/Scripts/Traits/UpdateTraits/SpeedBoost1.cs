@@ -19,4 +19,19 @@ public class SpeedBoost1 : Trait
     {
         animal.baseMoveSpeed = ConstantsUtility.baseMoveSpeed * 1.2f;
     }
+
+    public override void InteractionApply(Animal animal)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void ChooseNextActionApply(Animal animal)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void ActApply(Animal animal)
+    {
+        throw new System.NotImplementedException();
+    }
 }

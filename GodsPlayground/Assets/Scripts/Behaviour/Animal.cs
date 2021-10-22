@@ -117,6 +117,11 @@ public class Animal : LivingEntity {
     protected virtual void Update () {
 
         UpdateSpeeds();
+        // Apply Update Traits
+        foreach (Trait trait in traits)
+        {
+            trait.Apply(this);
+        }
 
         // Increase hunger and thirst over time
         hunger += Time.deltaTime * 1 / timeToDeathByHunger;
@@ -136,19 +141,17 @@ public class Animal : LivingEntity {
             float timeSinceLastActionChoice = Time.time - lastActionChooseTime;
             if (timeSinceLastActionChoice > timeBetweenActionChoices) {
                 ChooseNextAction ();
-                //traits default override unless conditionally specified within each trait apply method
-                foreach(Trait t in traits){
-                    t.Apply(this);
-                }
             }
         }
 
+        // Handles Births
         if (pregnant && Time.time - pregnantTime > gestationPeriod)
         {
             HandleBirth();
             pregnant = false;
         }
 
+        // Handles Deaths
         if (hunger >= 1) {
             Die (CauseOfDeath.Hunger);
         } else if (thirst >= 1) {
@@ -158,6 +161,7 @@ public class Animal : LivingEntity {
             horny = 1.0f;
         }
 
+        // Resizes baby animals
         if (transform.localScale != Vector3.one)
         {
             scale = Mathf.Clamp01((scale + (0.4f / timeToGrow) * Time.deltaTime));
@@ -203,6 +207,13 @@ public class Animal : LivingEntity {
         } else
         {
             currentAction = CreatureAction.Exploring;
+        }
+
+        // Apply Choose Next Action Traits
+        // DOESN'T CURRENTLY WORK DUE TO THE NATURE OF CHOOSING ACTIONS
+        foreach (Trait trait in traits)
+        {
+            trait.ChooseNextActionApply(this);
         }
 
         Act ();
@@ -402,6 +413,12 @@ public class Animal : LivingEntity {
                 }
                 break;
         }
+
+        // Apply Act Traits
+        foreach (Trait trait in traits)
+        {
+            trait.ActApply(this);
+        }
     }
 
     protected void CreatePath (Coord target) {
@@ -459,6 +476,12 @@ public class Animal : LivingEntity {
                     pregnantTime = Time.time;
                 }
             }
+        }
+
+        // Apply Interaction Traits
+        foreach (Trait trait in traits)
+        {
+            trait.InteractionApply(this);
         }
     }
 

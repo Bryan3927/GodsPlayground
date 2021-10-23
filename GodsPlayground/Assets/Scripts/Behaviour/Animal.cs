@@ -183,38 +183,57 @@ public class Animal : LivingEntity {
         bool currentlyMating = currentAction == CreatureAction.Mating && horny > 0.01;
         bool currentlyWaiting = currentAction == CreatureAction.WaitingForMate;
 
+        Target target = Target.Undefined;
+
         if ((currentlyWaiting || acceptedMateRequest) && hunger < criticalPercent && thirst < criticalPercent)
         {
             currentAction = CreatureAction.WaitingForMate;
         } else if (currentlyEating && thirst < criticalPercent)
         {
-            FindFood();
+            target = Target.Food;
         } else if (currentlyDrinking && hunger < criticalPercent)
         {
-            FindWater();
+            target = Target.Water;
         } else if (currentlyMating && hunger < criticalPercent && thirst < criticalPercent) {
-            //FindMate();
+            // Should not need to find another mate
         } 
         else if ((hunger >= thirst && hunger >= horny && hunger > 0.1) || hunger > criticalPercent)
         {
-            FindFood();
+            target = Target.Food;
         } else if ((thirst >= hunger && thirst >= horny && thirst > 0.1) || thirst > criticalPercent)
         {
-            FindWater();
+            target = Target.Water;
         } else if (!pregnant && (horny > hunger && horny > thirst && horny > 0.1))
         {
-            FindMate();
+            target = Target.Mate;
         } else
         {
             currentAction = CreatureAction.Exploring;
         }
 
         // Apply Choose Next Action Traits
-        // DOESN'T CURRENTLY WORK DUE TO THE NATURE OF CHOOSING ACTIONS
         foreach (Trait trait in traits)
         {
             trait.ChooseNextActionApply(this);
         }
+
+        // If target is part of base AI, run base code. Otherwise code is offloaded to ChooseNextActionApply
+        switch(target)
+        {
+            case (Target.Food):
+                FindFood();
+                break;
+            case (Target.Water):
+                FindWater();
+                break;
+            case (Target.Mate):
+                FindMate();
+                break;
+            default:
+                // Do nothing
+                break;
+        }
+            
 
         Act ();
 

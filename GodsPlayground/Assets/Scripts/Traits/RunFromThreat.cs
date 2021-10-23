@@ -15,7 +15,6 @@ public class RunFromThreat : Trait
 
     public override void Apply(Animal animal)
     {
-        // TODO: Logic to make animal run from threat
         throw new System.NotImplementedException();
     }
 

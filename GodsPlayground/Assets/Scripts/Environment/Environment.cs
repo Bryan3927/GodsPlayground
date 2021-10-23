@@ -479,6 +479,19 @@ public class Environment : MonoBehaviour {
         //gameHandler.StartNextRound();
     }
 
+    public void Upgrade(Species animalToUpgrade, Trait trait)
+    {
+        int counter = 0;
+        foreach (LivingEntity livingEntity in allEntities[animalToUpgrade])
+        {
+            Animal animal = ((Animal)livingEntity);
+            //animal.gameObject.AddComponent<Trait>();
+            animal.GiveTrait(trait);
+            counter++;
+        }
+        Debug.Log("Successfully upgraded " + counter + animalToUpgrade);
+    }
+
     void LogPredatorPreyRelationships () {
         int numSpecies = System.Enum.GetNames (typeof (Species)).Length;
         for (int i = 0; i < numSpecies; i++) {

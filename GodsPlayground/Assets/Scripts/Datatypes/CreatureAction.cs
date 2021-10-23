@@ -9,5 +9,6 @@
     Eating,
     Drinking,
     Mating,
-    SearchingForMate
+    SearchingForMate,
+    RunningAway
 }

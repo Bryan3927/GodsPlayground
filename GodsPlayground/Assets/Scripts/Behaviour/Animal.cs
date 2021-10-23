@@ -84,8 +84,8 @@ public class Animal : LivingEntity {
     float moveTime;
     float moveSpeedFactor;
     float moveArcHeightFactor;
-    Coord[] path;
-    int pathIndex;
+    public Coord[] path;
+    public int pathIndex;
 
     // Other
     protected float lastActionChooseTime;
@@ -94,6 +94,8 @@ public class Animal : LivingEntity {
     float waitingForMate;
 
     List<Animal> potentialMatches = new List<Animal>();
+
+    public Target target;
 
     public override void Init (Coord coord) {
         base.Init (coord);
@@ -183,7 +185,7 @@ public class Animal : LivingEntity {
         bool currentlyMating = currentAction == CreatureAction.Mating && horny > 0.01;
         bool currentlyWaiting = currentAction == CreatureAction.WaitingForMate;
 
-        Target target = Target.Undefined;
+        target = Target.Undefined;
 
         if ((currentlyWaiting || acceptedMateRequest) && hunger < criticalPercent && thirst < criticalPercent)
         {
@@ -440,7 +442,7 @@ public class Animal : LivingEntity {
         }
     }
 
-    protected void CreatePath (Coord target) {
+    public void CreatePath (Coord target) {
         // Create new path if current is not already going to target
         if (path == null || pathIndex >= path.Length || (path[path.Length - 1] != target || path[Mathf.Clamp(pathIndex - 1, 0, path.Length)] != moveTargetCoord)) {
             path = EnvironmentUtility.GetPath (coord.x, coord.y, target.x, target.y);
@@ -448,7 +450,7 @@ public class Animal : LivingEntity {
         }
     }
 
-    protected void StartMoveToCoord (Coord target) {
+    public void StartMoveToCoord (Coord target) {
         moveFromCoord = coord;
         moveTargetCoord = target;
         moveStartPos = transform.position;

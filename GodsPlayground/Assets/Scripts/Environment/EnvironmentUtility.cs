@@ -125,4 +125,24 @@ public static class EnvironmentUtility {
         }
         return path;
     }
+
+    public static Coord[] GetSurroundingTiles(Coord coord)
+    {
+        Coord[] tiles = new Coord[8];
+        int index = 0;
+        int x = coord.x;
+        int y = coord.y;
+        for (int i = -1; i < 2; i++)
+        {
+            for (int j = -1; j < 2; j++)
+            {
+                if (Environment.walkable[x + i, y + j])
+                {
+                    tiles[index] = new Coord(x + i, y + j);
+                    index++;
+                }
+            }
+        }
+        return tiles;
+    }
 }

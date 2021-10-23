@@ -184,6 +184,33 @@ public class Environment : MonoBehaviour {
         return surroundings;
     }
 
+    // Returns closest threat if any
+    public static Animal SenseThreat(Animal self, float threatDistance)
+    {
+        if (self.species == Species.Rabbit)
+        {
+            Map foxMap = speciesMaps[Species.Fox];
+            List<LivingEntity> visibleEntities = foxMap.GetEntities(self.coord, self.maxViewDistance);
+            Animal biggestThreat = null;
+            float closestThreatDistance = float.MaxValue;
+
+            for (int i = 0; i < visibleEntities.Count; i++)
+            {
+                var fox = (Animal)visibleEntities[i];
+                float foxDistance = Vector3.Distance(new Vector3(self.coord.x, self.coord.y, 0), new Vector3(fox.coord.x, fox.coord.y, 0);
+                if (foxDistance < closestThreatDistance)
+                {
+                    closestThreatDistance = foxDistance;
+                    biggestThreat = fox;
+                }
+            }
+            return biggestThreat;
+        } else
+        {
+            return null;
+        }
+    }
+
     public static Coord GetNextTileRandom (Coord current) {
         var neighbours = walkableNeighboursMap[current.x, current.y];
         if (neighbours.Length == 0) {

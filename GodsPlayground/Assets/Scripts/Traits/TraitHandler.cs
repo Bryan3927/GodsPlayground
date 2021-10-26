@@ -21,10 +21,14 @@ public class TraitHandler : MonoBehaviour
         
         ShortenGestationPeriod sgp = new GameObject().AddComponent<ShortenGestationPeriod>();
 
+        SmartBunnies sb = new GameObject().AddComponent<SmartBunnies>();
+
+        RunFromThreat rft = new GameObject().AddComponent<RunFromThreat>();
+
         // LEVEL TWO TRAITS - FOXES
         SpeedBoost2 sp2 = new GameObject().AddComponent<SpeedBoost2>();
 
-        bunnyTraits = new List<Trait>() { sp1, smt, sgp };
+        bunnyTraits = new List<Trait>() { sp1, smt, sgp, sb, rft };
 
         foxTraits = new List<Trait>() { sp2 }; 
 

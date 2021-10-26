@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Plant : LivingEntity {
-    float amountRemaining = 1;
+    public float amountRemaining = 1;
     const float consumeSpeed = 8;
 
     private float timeOfDeath;

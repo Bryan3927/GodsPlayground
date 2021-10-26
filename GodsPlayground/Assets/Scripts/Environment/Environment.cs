@@ -197,7 +197,7 @@ public class Environment : MonoBehaviour {
             for (int i = 0; i < visibleEntities.Count; i++)
             {
                 var fox = (Animal)visibleEntities[i];
-                float foxDistance = Vector3.Distance(new Vector3(self.coord.x, self.coord.y, 0), new Vector3(fox.coord.x, fox.coord.y, 0);
+                float foxDistance = Vector3.Distance(new Vector3(self.coord.x, self.coord.y, 0), new Vector3(fox.coord.x, fox.coord.y, 0));
                 if (foxDistance < closestThreatDistance)
                 {
                     closestThreatDistance = foxDistance;

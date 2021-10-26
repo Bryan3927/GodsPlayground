@@ -1125,19 +1125,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 636867227}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1977707848}
-        m_TargetAssemblyTypeName: GameHandler, Assembly-CSharp
-        m_MethodName: StartNextRound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &636867227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2410,19 +2398,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1280304204}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1977707848}
-        m_TargetAssemblyTypeName: GameHandler, Assembly-CSharp
-        m_MethodName: StartNextRound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1280304204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3177,19 +3153,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1611632550}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1977707848}
-        m_TargetAssemblyTypeName: GameHandler, Assembly-CSharp
-        m_MethodName: StartNextRound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1611632550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3735,6 +3699,7 @@ MonoBehaviour:
   UI: {fileID: 990208983}
   environment: {fileID: 309673067}
   timer: {fileID: 68252876}
+  traitHandler: {fileID: 0}
 --- !u!4 &1977707849
 Transform:
   m_ObjectHideFlags: 0

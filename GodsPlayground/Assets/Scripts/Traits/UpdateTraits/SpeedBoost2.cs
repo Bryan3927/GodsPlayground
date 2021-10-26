@@ -20,16 +20,16 @@ public class SpeedBoost2 : Trait
 
     public override void ChooseNextActionApply(Animal animal)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void InteractionApply(Animal animal)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void Mutate()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

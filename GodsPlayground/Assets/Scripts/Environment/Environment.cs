@@ -19,6 +19,7 @@ public class Environment : MonoBehaviour {
     [Header ("Populations")]
     public Population[] initialPopulations;
     public LineGraphManager populationGraph;
+    public PopulationChart populationChart;
 
     [Header ("Debug")]
     public bool showMapDebug;
@@ -62,6 +63,7 @@ public class Environment : MonoBehaviour {
         Init ();
         SpawnInitialPopulations ();
         // UpgradeBunnies();
+        populationChart.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
     }
 
     void OnDrawGizmos () {
@@ -82,6 +84,7 @@ public class Environment : MonoBehaviour {
         {
             Debug.Log("Updating graph");
             populationGraph.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
+            populationChart.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
             updateTime += updateIncrement;
         }
     }
@@ -197,7 +200,7 @@ public class Environment : MonoBehaviour {
             for (int i = 0; i < visibleEntities.Count; i++)
             {
                 var fox = (Animal)visibleEntities[i];
-                float foxDistance = Vector3.Distance(new Vector3(self.coord.x, self.coord.y, 0), new Vector3(fox.coord.x, fox.coord.y, 0);
+                float foxDistance = Vector3.Distance(new Vector3(self.coord.x, self.coord.y, 0), new Vector3(fox.coord.x, fox.coord.y, 0));
                 if (foxDistance < closestThreatDistance)
                 {
                     closestThreatDistance = foxDistance;

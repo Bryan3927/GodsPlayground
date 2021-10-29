@@ -61,7 +61,7 @@ public class Environment : MonoBehaviour {
         prng = new System.Random ();
 
         Init ();
-        SpawnInitialPopulations ();
+        SpawnInitialPopulations();
         // UpgradeBunnies();
         populationChart.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
     }

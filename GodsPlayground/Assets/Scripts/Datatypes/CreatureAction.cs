@@ -10,5 +10,6 @@
     Drinking,
     Mating,
     SearchingForMate,
-    RunningAway
+    RunningAway,
+    SmartEating
 }

@@ -21,10 +21,14 @@ public class TraitHandler : MonoBehaviour
         
         ShortenGestationPeriod sgp = new GameObject().AddComponent<ShortenGestationPeriod>();
 
+        SmartBunnies sb = new GameObject().AddComponent<SmartBunnies>();
+
+        RunFromThreat rft = new GameObject().AddComponent<RunFromThreat>();
+
         // LEVEL TWO TRAITS - FOXES
         SpeedBoost2 sp2 = new GameObject().AddComponent<SpeedBoost2>();
 
-        bunnyTraits = new List<Trait>() { sp1, smt, sgp };
+        bunnyTraits = new List<Trait>() { sp1, smt, sgp, sb, rft };
 
         foxTraits = new List<Trait>() { sp2 }; 
 
@@ -41,15 +45,22 @@ public class TraitHandler : MonoBehaviour
         // }
         
         List<Trait> roundTraits = new List<Trait>();
+        int sIndex;
         for (int i=0; i<n; i++){
             if (animal==Species.Rabbit){
-                roundTraits.Add(bunnyTraits[Random.Range(0, bunnyTraits.Count)]);
+                sIndex=Random.Range(0, bunnyTraits.Count);
+                roundTraits.Add(bunnyTraits[sIndex]);
+                bunnyTraits.RemoveAt(sIndex);
             }
             else{
-                roundTraits.Add(foxTraits[Random.Range(0, foxTraits.Count)]);
+                sIndex=Random.Range(0, foxTraits.Count);
+                roundTraits.Add(foxTraits[sIndex]);
+                foxTraits.RemoveAt(sIndex);
             }
+           
         }
 
+     
         return roundTraits;
     }
 }

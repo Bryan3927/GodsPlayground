@@ -16,7 +16,8 @@ public class Animal : LivingEntity {
     public Color femaleColour;
 
     // Virtual settings after being multiplied by Sim Speed
-    protected float 
+    [HideInInspector]
+    public float 
         timeBetweenActionChoices,
         moveSpeed,
         timeToDeathByHunger,
@@ -68,7 +69,7 @@ public class Animal : LivingEntity {
     public StatsBar thirstBar;
     public StatsBar hornyBar;
 
-    protected LivingEntity foodTarget;
+    public LivingEntity foodTarget;
     protected Coord waterTarget;
     public Animal mateTarget = null;
 

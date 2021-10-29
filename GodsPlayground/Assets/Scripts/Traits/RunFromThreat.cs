@@ -19,7 +19,7 @@ public class RunFromThreat : Trait
 
     public override void Apply(Animal animal)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void ChooseNextActionApply(Animal animal)
@@ -54,11 +54,11 @@ public class RunFromThreat : Trait
 
     public override void InteractionApply(Animal animal)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void Mutate()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

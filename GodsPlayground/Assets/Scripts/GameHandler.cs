@@ -28,6 +28,8 @@ public class GameHandler : MonoBehaviour
         cards.Add(UI.transform.GetChild(1).gameObject);
         cards.Add(UI.transform.GetChild(2).gameObject);
 
+        traitHandler = new GameObject().AddComponent<TraitHandler>();
+
         UI.SetActive(false);
         gameStartTime = Time.time;
         timer.SetTimer(waitTime);
@@ -53,6 +55,11 @@ public class GameHandler : MonoBehaviour
     public void StartNextRound()
     {
         Debug.Log("Starting next round. Previous sim speed: " + lastSimSpeed);
+        foreach (GameObject card in cards)
+        {
+            Button chooseButton = card.transform.GetChild(1).GetComponent<Button>();
+            chooseButton.onClick.RemoveAllListeners();
+        }
         UI.SetActive(false);
         Environment.SetSimSpeed(lastSimSpeed);
         gameStartTime = Time.time;
@@ -63,9 +70,9 @@ public class GameHandler : MonoBehaviour
     private List<Trait> DecideNextTraits()
     {
         // TODO: Logic to select traits based on the round
-        Transform card1 = UI.transform.GetChild(0);
-        Transform card2 = UI.transform.GetChild(1);
-        Transform card3 = UI.transform.GetChild(2);
+        // Transform card1 = UI.transform.GetChild(0);
+        // Transform card2 = UI.transform.GetChild(1);
+        // Transform card3 = UI.transform.GetChild(2);
 
 
         return traitHandler.GetRandomTraits(animalTurn, numTraitsPerRound);
@@ -91,6 +98,7 @@ public class GameHandler : MonoBehaviour
             traitName.text = trait.Name;
 
             Button chooseButton = cards[i].transform.GetChild(1).GetComponent<Button>();
+            chooseButton.onClick.AddListener(delegate { this.StartNextRound(); });
             chooseButton.onClick.AddListener(delegate { environment.Upgrade(animalTurn, trait); });
         }
     } 

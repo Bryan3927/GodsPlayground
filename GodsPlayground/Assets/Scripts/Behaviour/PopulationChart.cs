@@ -26,8 +26,7 @@ public class PopulationChart : MonoBehaviour
     {
         bunnyText.text = "" + bunnyPopulation;
         foxText.text = "" + foxPopulation;
-        Debug.Log("bunny: " + ogBunnyPop);
-        Debug.Log("fox: " + ogFoxesPop);
+
         if (bunnyPopulation <= Mathf.Floor(ogBunnyPop / 2) || bunnyPopulation >= ogBunnyPop * 2) {
             bunnyText.color = Color.red;
         } else {

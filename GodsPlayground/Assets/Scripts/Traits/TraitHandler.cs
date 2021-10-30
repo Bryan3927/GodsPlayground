@@ -30,9 +30,11 @@ public class TraitHandler : MonoBehaviour
 
         Lockon lckon = new GameObject().AddComponent<Lockon>();
 
+        Fasting fasting = new GameObject().AddComponent<Fasting>();
+
         bunnyTraits = new List<Trait>() { sp1, smt, sgp, sb, rft , sp2};
 
-        foxTraits = new List<Trait>() { sp2 , smt, lckon};
+        foxTraits = new List<Trait>() { sp2 , lckon, fasting};
 
         allAvailableTraits.AddRange(bunnyTraits);
         allAvailableTraits.AddRange(foxTraits);

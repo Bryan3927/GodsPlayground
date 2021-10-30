@@ -46,7 +46,7 @@ public class Environment : MonoBehaviour {
     TerrainGenerator.TerrainData terrainData;
 
     static Dictionary<Species, Map> speciesMaps;
-    static Dictionary<Species, List<LivingEntity>> allEntities = new Dictionary<Species, List<LivingEntity>>(); 
+    public static Dictionary<Species, List<LivingEntity>> allEntities = new Dictionary<Species, List<LivingEntity>>(); 
 
     static Dictionary<Species, int> deathCounter;
     static Dictionary<Species, int> birthCounter;

@@ -45,6 +45,15 @@ public class GameHandler : MonoBehaviour
             lastSimSpeed = Environment.GetSimSpeed();
             Environment.SetSimSpeed(0);
 
+            if (animalTurn == Species.Rabbit)
+            {
+                animalTurn = Species.Fox;
+            }
+            else
+            {
+                animalTurn = Species.Rabbit;
+            }
+
             List<Trait> nextTraits = DecideNextTraits();
             FormatUI(nextTraits);
 

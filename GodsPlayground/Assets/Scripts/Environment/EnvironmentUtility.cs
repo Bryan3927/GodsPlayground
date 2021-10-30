@@ -128,7 +128,7 @@ public static class EnvironmentUtility {
 
     public static Coord[] GetSurroundingTiles(Coord coord)
     {
-        Coord[] tiles = new Coord[8];
+        Coord[] tiles = new Coord[9];
         int index = 0;
         int x = coord.x;
         int y = coord.y;

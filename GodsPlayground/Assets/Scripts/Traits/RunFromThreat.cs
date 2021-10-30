@@ -12,9 +12,7 @@ public class RunFromThreat : Trait
     {
         if (animal.currentAction == CreatureAction.RunningAway)
         {
-            Coord target = animal.path[0];
-            Debug.Log("Running to coord: (" + target.x + ", " + target.y + ")");
-            animal.StartMoveToCoord(target);
+            // Do nothing. All logic already handled
         }
     }
 
@@ -47,6 +45,8 @@ public class RunFromThreat : Trait
                 animal.path = new Coord[] { target };
                 animal.target = Target.RunAway;
                 animal.currentAction = CreatureAction.RunningAway;
+                Debug.Log("Running to coord: (" + target.x + ", " + target.y + ")");
+                animal.StartMoveToCoord(target);
             } else
             {
                 animal.currentAction = CreatureAction.Exploring;

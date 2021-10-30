@@ -30,11 +30,13 @@ public class SmartBunnies : Trait
         {
             if (animal.foodTarget && animal.hunger > 0)
             {
-                float amountRemaining = ((Plant)animal.foodTarget).amountRemaining;
+                Plant foodTarget = (Plant)animal.foodTarget;
+                float amountRemaining = foodTarget.amountRemaining;
                 float eatAmount = Mathf.Min(animal.hunger, Time.deltaTime * 1 / animal.eatDuration);
                 if (amountRemaining < 0.1)
                 {
                     eatAmount = 0;
+                    foodTarget.SmartDie();
                 }
                 eatAmount = animal.foodTarget.Consume(eatAmount);
                 animal.hunger -= eatAmount;

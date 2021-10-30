@@ -9,8 +9,12 @@ public class Plant : LivingEntity {
     private float timeOfDeath;
     private float timeSinceLastRegen;
 
+    public float smartRebirthTime;
     public float rebirthTime;
     public float regenTime;
+
+    public bool smartDead = false;
+    public float baseSmartRebirthTime = 4.0f;
 
     public float baseRebirthTime = 8.0f;
     public float baseRegenTime = 2.5f;
@@ -34,10 +38,20 @@ public class Plant : LivingEntity {
             dead = false;
             amountRemaining = 0.1f;
             Environment.RegisterBirth(this);
-        } else if (!dead)
+        } 
+        else if (smartDead)
+        {
+            HandleRegen();
+            if (Time.time - timeOfDeath > rebirthTime)
+            {
+                Environment.RegisterBirth(this);
+            }
+        } 
+        else if (!dead)
         {
             HandleRegen();
         }
+
         if (amountRemaining >= 0)
         {
             transform.localScale = Vector3.one * amountRemaining;
@@ -49,6 +63,16 @@ public class Plant : LivingEntity {
         if (!dead)
         {
             dead = true;
+            timeOfDeath = Time.time;
+            Environment.RegisterDeath(this);
+        }
+    }
+
+    public void SmartDie()
+    {
+        if (!smartDead)
+        {
+            smartDead = true;
             timeOfDeath = Time.time;
             Environment.RegisterDeath(this);
         }
@@ -74,6 +98,7 @@ public class Plant : LivingEntity {
         float simSpeed = Environment.GetSimSpeed();
         float simSpeedFraction = 1.0f / simSpeed;
 
+        smartRebirthTime = baseSmartRebirthTime * simSpeedFraction;
         rebirthTime = baseRebirthTime * simSpeedFraction;
         regenTime = baseRegenTime * simSpeedFraction;
     }

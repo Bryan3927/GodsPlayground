@@ -48,6 +48,12 @@ public class GameHandler : MonoBehaviour
             List<Trait> nextTraits = DecideNextTraits();
             FormatUI(nextTraits);
 
+            Text animalText = UI.transform.GetChild(3).GetComponent<Text>();
+            if (animalTurn == Species.Rabbit) {
+                animalText.text = "Bunnies";
+            } else if (animalTurn == Species.Fox) {
+                animalText.text = "Foxes";
+            } 
             UI.SetActive(true);
         }
     }
@@ -57,7 +63,7 @@ public class GameHandler : MonoBehaviour
         Debug.Log("Starting next round. Previous sim speed: " + lastSimSpeed);
         foreach (GameObject card in cards)
         {
-            Button chooseButton = card.transform.GetChild(1).GetComponent<Button>();
+            Button chooseButton = card.transform.GetChild(1).GetComponentInChildren<Button>();
             chooseButton.onClick.RemoveAllListeners();
         }
         UI.SetActive(false);

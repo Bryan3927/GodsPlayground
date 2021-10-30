@@ -10,7 +10,7 @@ public class SpeedBoost2 : Trait
 
     public override void ActApply(Animal animal)
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void Apply(Animal animal)

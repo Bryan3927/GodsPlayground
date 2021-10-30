@@ -30,7 +30,7 @@ public class Environment : MonoBehaviour {
     public static Vector3[, ] tileCentres;
     public static bool[, ] walkable;
     static int size;
-    static Coord[, ][] walkableNeighboursMap;
+    public static Coord[, ][] walkableNeighboursMap;
     static List<Coord> walkableCoords;
 
     static Dictionary<Species, List<Species>> preyBySpecies;

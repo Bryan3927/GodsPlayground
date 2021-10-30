@@ -128,7 +128,7 @@ public static class EnvironmentUtility {
 
     public static Coord[] GetSurroundingTiles(Coord coord)
     {
-        Coord[] tiles = new Coord[8];
+        Coord[] tiles = new Coord[9];
         int index = 0;
         int x = coord.x;
         int y = coord.y;
@@ -136,9 +136,25 @@ public static class EnvironmentUtility {
         {
             for (int j = -1; j < 2; j++)
             {
+                // Skip tile we are standing on
+                if (i == 0 && j == 0)
+                {
+                    continue;
+                }
+                else if (x + i < 0 || x + i >= Environment.walkable.Length)
+                {
+                    continue;
+                }
+                else if (y + j < 0 || y + j >= -Environment.walkable.Length)
+                {
+                    continue;
+                }
+
                 if (Environment.walkable[x + i, y + j])
                 {
-                    tiles[index] = new Coord(x + i, y + j);
+                    Coord target = new Coord(x + i, y + j);
+                    Debug.Log("Adding neighbor: " + target + " to surrounding tiles");
+                    tiles[index] = target;
                     index++;
                 }
             }

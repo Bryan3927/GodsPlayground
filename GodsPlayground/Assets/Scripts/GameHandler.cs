@@ -55,6 +55,26 @@ public class GameHandler : MonoBehaviour
                 animalText.text = "Foxes";
             } 
             UI.SetActive(true);
+            
+            //switching animals
+            if (animalTurn == Species.Rabbit)
+            {
+                animalTurn = Species.Fox;
+            }
+            else
+            {
+                animalTurn = Species.Rabbit;
+            }
+            //mutations (here because its slow)
+            foreach (LivingEntity livingEntity in Environment.allEntities[animalTurn])
+            {
+                Animal animal = ((Animal)livingEntity);
+                foreach (Trait t in animal.traits)
+                {
+                    t.Mutate();
+                }
+            }
+
         }
     }
 

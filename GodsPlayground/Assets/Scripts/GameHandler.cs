@@ -19,7 +19,7 @@ public class GameHandler : MonoBehaviour
 
     private int activeTimeStep = 0;
     private int numTraitsPerRound = 3;
-    private Species animalTurn = Species.Rabbit; //default Rabbit
+    private Species animalTurn = Species.Fox; //default Rabbit
 
     // Start is called before the first frame update
     void Start()
@@ -55,12 +55,49 @@ public class GameHandler : MonoBehaviour
                 animalText.text = "Foxes";
             } 
             UI.SetActive(true);
+
+            Species mutateTurn;
+
+            //switching animals
+            if (animalTurn == Species.Rabbit)
+            {
+                mutateTurn = Species.Fox;
+            }
+            else
+            {
+                mutateTurn = Species.Rabbit;
+            }
+
+
+            //mutations (here because its slow)
+            foreach (LivingEntity livingEntity in Environment.allEntities[mutateTurn])
+            {
+                Animal animal = ((Animal)livingEntity);
+                foreach (Trait t in animal.traits)
+                {
+                    t.Mutate();
+                }
+            }
+
         }
     }
 
     public void StartNextRound()
     {
         Debug.Log("Starting next round. Previous sim speed: " + lastSimSpeed);
+
+        //switching animals
+        if (animalTurn == Species.Rabbit)
+        {
+            animalTurn = Species.Fox;
+        }
+        else
+        {
+            animalTurn = Species.Rabbit;
+            Debug.Log("CALL");
+        }
+
+
         foreach (GameObject card in cards)
         {
             Button chooseButton = card.transform.GetChild(1).GetComponentInChildren<Button>();
@@ -104,8 +141,8 @@ public class GameHandler : MonoBehaviour
             traitName.text = trait.Name;
 
             Button chooseButton = cards[i].transform.GetChild(1).GetComponent<Button>();
-            chooseButton.onClick.AddListener(delegate { this.StartNextRound(); });
             chooseButton.onClick.AddListener(delegate { environment.Upgrade(animalTurn, trait); });
+            chooseButton.onClick.AddListener(delegate { this.StartNextRound(); });
         }
     } 
 }

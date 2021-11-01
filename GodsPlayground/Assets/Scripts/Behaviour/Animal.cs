@@ -47,9 +47,9 @@ public class Animal : LivingEntity {
 
     float scale = 0.6f;
     float mateStartTime;
-    protected float criticalPercent = 0.7f;
+    public float criticalPercent = 0.7f;
 
-    protected bool pregnant = false;
+    public bool pregnant = false;
     float pregnantTime;
 
     protected bool acceptedMateRequest = false;

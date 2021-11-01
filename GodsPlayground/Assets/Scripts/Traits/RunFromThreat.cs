@@ -12,8 +12,7 @@ public class RunFromThreat : Trait
     {
         if (animal.currentAction == CreatureAction.RunningAway)
         {
-            animal.StartMoveToCoord(animal.path[animal.pathIndex]);
-            animal.pathIndex++;
+            // Do nothing. All logic already handled
         }
     }
 
@@ -28,7 +27,7 @@ public class RunFromThreat : Trait
         if (threat != null)
         {
             Coord target = Coord.invalid;
-            Coord[] surroundingTiles = EnvironmentUtility.GetSurroundingTiles(animal.coord);
+            Coord[] surroundingTiles = Environment.walkableNeighboursMap[animal.coord.x, animal.coord.y];
             Vector2 animalPosition = new Vector2(animal.coord.x, animal.coord.y);
             float furthestDistance = 0;
             foreach (Coord coord in surroundingTiles)
@@ -42,9 +41,12 @@ public class RunFromThreat : Trait
             }
             if (target != Coord.invalid)
             {
-                animal.CreatePath(target);
+                // animal.CreatePath(target); CreatePath won't work if target is a neighboring tile
+                animal.path = new Coord[] { target };
                 animal.target = Target.RunAway;
                 animal.currentAction = CreatureAction.RunningAway;
+                Debug.Log("Running to coord: (" + target.x + ", " + target.y + ")");
+                animal.StartMoveToCoord(target);
             } else
             {
                 animal.currentAction = CreatureAction.Exploring;

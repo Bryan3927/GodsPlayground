@@ -28,9 +28,13 @@ public class TraitHandler : MonoBehaviour
         // LEVEL TWO TRAITS - FOXES
         SpeedBoost2 sp2 = new GameObject().AddComponent<SpeedBoost2>();
 
-        bunnyTraits = new List<Trait>() { sp1, smt, sgp, sb, rft };
+        Lockon lckon = new GameObject().AddComponent<Lockon>();
 
-        foxTraits = new List<Trait>() { sp2 }; 
+        Fasting fasting = new GameObject().AddComponent<Fasting>();
+
+        bunnyTraits = new List<Trait>() { sp1, smt, sgp, sb, rft , sp2};
+
+        foxTraits = new List<Trait>() { sp2 , lckon, fasting};
 
         allAvailableTraits.AddRange(bunnyTraits);
         allAvailableTraits.AddRange(foxTraits);

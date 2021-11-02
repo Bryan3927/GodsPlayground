@@ -466,6 +466,10 @@ public class Environment : MonoBehaviour {
         var entity = Instantiate(animalPrefab);
         entity.transform.localScale = Vector3.one * 0.6f;
         entity.Init(animal.coord);
+        foreach (Trait trait in animal.traits)
+        {
+            entity.GiveTrait(trait);
+        }
         RegisterBirth(entity);
         allEntities[entity.species].Add(entity);
     }

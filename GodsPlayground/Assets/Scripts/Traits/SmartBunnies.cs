@@ -47,6 +47,5 @@ public class SmartBunnies : Trait
 
     public override void Mutate()
     {
-        throw new System.NotImplementedException();
     }
 }

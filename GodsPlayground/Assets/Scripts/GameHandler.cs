@@ -19,7 +19,7 @@ public class GameHandler : MonoBehaviour
 
     private int activeTimeStep = 0;
     private int numTraitsPerRound = 3;
-    private Species animalTurn = Species.Fox; //default Rabbit
+    private Species animalTurn = Species.Rabbit; //default Rabbit
 
     // Start is called before the first frame update
     void Start()

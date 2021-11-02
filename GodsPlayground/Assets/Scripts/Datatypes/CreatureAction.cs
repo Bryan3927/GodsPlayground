@@ -11,5 +11,6 @@
     Mating,
     SearchingForMate,
     RunningAway,
-    SmartEating
+    SmartEating,
+    Hiding
 }

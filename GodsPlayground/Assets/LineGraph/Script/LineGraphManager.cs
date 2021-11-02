@@ -58,7 +58,7 @@ public class LineGraphManager : MonoBehaviour {
 
 	public void UpdatePopulations(int preyPopulation, int predatorPopulation)
     {
-		Debug.Log("Updating graph with " + preyPopulation + " bunnies and " + predatorPopulation + " foxes");
+		// Debug.Log("Updating graph with " + preyPopulation + " bunnies and " + predatorPopulation + " foxes");
 		gdPrey = new GraphData();
 		gdPrey.marbles = preyPopulation;
 		gdPredator = new GraphData();

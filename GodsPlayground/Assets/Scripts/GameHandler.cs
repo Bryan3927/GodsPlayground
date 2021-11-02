@@ -45,6 +45,8 @@ public class GameHandler : MonoBehaviour
             lastSimSpeed = Environment.GetSimSpeed();
             Environment.SetSimSpeed(0);
 
+            Debug.Log("Num of Bunnies: " + Environment.allEntities[Species.Rabbit].Count + " and Num of Foxes: " + Environment.allEntities[Species.Fox].Count);
+
             List<Trait> nextTraits = DecideNextTraits();
             FormatUI(nextTraits);
 
@@ -84,7 +86,7 @@ public class GameHandler : MonoBehaviour
 
     public void StartNextRound()
     {
-        Debug.Log("Starting next round. Previous sim speed: " + lastSimSpeed);
+        // Debug.Log("Starting next round. Previous sim speed: " + lastSimSpeed);
 
         //switching animals
         if (animalTurn == Species.Rabbit)

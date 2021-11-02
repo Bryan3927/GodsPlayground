@@ -34,7 +34,7 @@ public class TraitHandler : MonoBehaviour
 
         bunnyTraits = new List<Trait>() { sp1, smt, sgp, sb, rft , sp2};
 
-        foxTraits = new List<Trait>() { sp2 , lckon, fasting};
+        foxTraits = new List<Trait>() { sp2 , smt, sgp, sp2, lckon, fasting};
 
         allAvailableTraits.AddRange(bunnyTraits);
         allAvailableTraits.AddRange(foxTraits);

@@ -28,11 +28,11 @@ public class RunFromThreat : Trait
         {
             Coord target = Coord.invalid;
             Coord[] surroundingTiles = Environment.walkableNeighboursMap[animal.coord.x, animal.coord.y];
-            Vector2 animalPosition = new Vector2(animal.coord.x, animal.coord.y);
+            Coord threatCoord = threat.coord;
             float furthestDistance = 0;
             foreach (Coord coord in surroundingTiles)
             {
-                float dist = Vector2.Distance(animalPosition, new Vector2(coord.x, coord.y));
+                float dist = Coord.SqrDistance(threatCoord, coord);
                 if (dist > furthestDistance)
                 {
                     furthestDistance = dist;
@@ -45,7 +45,6 @@ public class RunFromThreat : Trait
                 animal.path = new Coord[] { target };
                 animal.target = Target.RunAway;
                 animal.currentAction = CreatureAction.RunningAway;
-                Debug.Log("Running to coord: (" + target.x + ", " + target.y + ")");
                 animal.StartMoveToCoord(target);
             } else
             {

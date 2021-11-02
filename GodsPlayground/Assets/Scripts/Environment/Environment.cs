@@ -42,6 +42,8 @@ public class Environment : MonoBehaviour {
     // array of visible tiles from any tile; value is Coord.invalid if no visible water tile
     static Coord[, ] closestVisibleWaterMap;
 
+    public static Coord[,] closestTreeMap;
+
     static System.Random prng;
     TerrainGenerator.TerrainData terrainData;
 

@@ -5,6 +5,8 @@ using UnityEngine;
 public class UserControl : MonoBehaviour
 {
 
+    public float lowerLimit = 5;
+
     public float horizontalSpeed = 10.0f;
     public float verticalSpeed = 10.0f;
     public float zoomSpeed = 20.0f;
@@ -57,6 +59,7 @@ public class UserControl : MonoBehaviour
         float verticalChange = transform.position.z + verticalTranslation;
         float zoomChange = transform.position.z + zoomTranslation;
 
+        /**
         if (horizontalChange > 60.0f) {
             horizontalTranslation = 60.0f - transform.position.x;
         } else if (horizontalChange < 0.0f) {
@@ -68,13 +71,23 @@ public class UserControl : MonoBehaviour
         } else if (zoomChange < -20.0f) {
             zoomTranslation = -20.0f - transform.position.z;
         }
+        */
 
-        Debug.Log(transform.position);
-        
+        // Debug.Log(transform.position);
+
+        transform.Translate(horizontalTranslation, 0, verticalTranslation, Space.World);
+        transform.Translate(0, 0, zoomTranslation, Space.Self);
+        if (transform.position.y < lowerLimit)
+        {
+            transform.position = new Vector3(transform.position.x, lowerLimit, transform.position.z);
+        } 
+
+        /**
         if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Q)) {
             transform.Translate(0, 0, zoomTranslation, Space.Self);
         } else {
             transform.Translate(horizontalTranslation, 0, verticalTranslation, Space.World);
         }
+        */
     }
 }

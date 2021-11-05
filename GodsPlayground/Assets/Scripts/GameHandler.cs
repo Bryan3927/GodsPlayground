@@ -45,7 +45,7 @@ public class GameHandler : MonoBehaviour
             lastSimSpeed = Environment.GetSimSpeed();
             Environment.SetSimSpeed(0);
 
-            Debug.Log("Num of Bunnies: " + Environment.allEntities[Species.Rabbit].Count + " and Num of Foxes: " + Environment.allEntities[Species.Fox].Count);
+            //Debug.Log("Num of Bunnies: " + Environment.allEntities[Species.Rabbit].Count + " and Num of Foxes: " + Environment.allEntities[Species.Fox].Count);
 
             List<Trait> nextTraits = DecideNextTraits();
             FormatUI(nextTraits);
@@ -96,7 +96,6 @@ public class GameHandler : MonoBehaviour
         else
         {
             animalTurn = Species.Rabbit;
-            Debug.Log("CALL");
         }
 
 

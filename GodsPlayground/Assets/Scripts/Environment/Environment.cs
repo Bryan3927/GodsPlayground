@@ -84,8 +84,7 @@ public class Environment : MonoBehaviour {
         worldClock = Time.time;
         if (worldClock > updateTime)
         {
-            Debug.Log("Updating graph");
-            populationGraph.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
+            //Debug.Log("Updating graph");
             populationChart.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
             updateTime += updateIncrement;
         }
@@ -490,6 +489,18 @@ public class Environment : MonoBehaviour {
 
     public void Upgrade(Species animalToUpgrade, Trait trait)
     {
+        
+        //remove used trait; have to do it here because the listener maps here
+        if (animalToUpgrade == Species.Fox)
+        {
+            gameHandler.traitHandler.foxTraits.Remove(trait);
+        }
+        else
+        {
+            gameHandler.traitHandler.bunnyTraits.Remove(trait);
+        }
+
+
         int counter = 0;
         foreach (LivingEntity livingEntity in allEntities[animalToUpgrade])
         {

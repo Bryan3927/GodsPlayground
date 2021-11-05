@@ -32,7 +32,7 @@ public class TraitHandler : MonoBehaviour
 
         Fasting fasting = new GameObject().AddComponent<Fasting>();
 
-        bunnyTraits = new List<Trait>() { sp1, smt, sgp, sb, rft , sp2};
+        bunnyTraits = new List<Trait>() { sp1, smt, sgp, sb, rft, sp2};
 
         foxTraits = new List<Trait>() { sp2 , smt, sgp, sp2, lckon, fasting};
 
@@ -53,13 +53,14 @@ public class TraitHandler : MonoBehaviour
         for (int i=0; i<n; i++){
             if (animal==Species.Rabbit){
                 sIndex=Random.Range(0, bunnyTraits.Count);
+                Debug.Log(sIndex);
                 roundTraits.Add(bunnyTraits[sIndex]);
-                bunnyTraits.RemoveAt(sIndex);
+                //bunnyTraits.RemoveAt(sIndex);
             }
             else{
                 sIndex=Random.Range(0, foxTraits.Count);
                 roundTraits.Add(foxTraits[sIndex]);
-                foxTraits.RemoveAt(sIndex);
+                //foxTraits.RemoveAt(sIndex);
             }
            
         }

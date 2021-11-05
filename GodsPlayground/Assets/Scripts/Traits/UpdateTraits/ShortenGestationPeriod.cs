@@ -10,7 +10,7 @@ public class ShortenGestationPeriod : Trait
 
     public override void Mutate()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void Apply(Animal animal)

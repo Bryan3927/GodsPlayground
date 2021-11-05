@@ -11,7 +11,6 @@ public class UserControl : MonoBehaviour
     public float verticalSpeed = 10.0f;
     public float zoomSpeed = 20.0f;
     public TerrainGeneration.TerrainGenerator TerrainGenerator;
-    public LineGraphManager lineGraphScript;
     public PopulationChart populationChartScript;
 
     // Start is called before the first frame update
@@ -19,16 +18,13 @@ public class UserControl : MonoBehaviour
     {
         float x = TerrainGenerator.worldSize / 2f;
         transform.position = new Vector3(x, 20, 0);
-        GameObject lineGraphCamera = lineGraphScript.gameObject.transform.GetChild(0).gameObject;
         GameObject populationChartCamera = populationChartScript.gameObject.transform.GetChild(0).gameObject;
-        lineGraphCamera.SetActive(false);
         populationChartCamera.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        GameObject lineGraphCamera = lineGraphScript.gameObject.transform.GetChild(0).gameObject;
         GameObject populationChartCamera = populationChartScript.gameObject.transform.GetChild(0).gameObject;
 
         moveCamera();
@@ -36,10 +32,8 @@ public class UserControl : MonoBehaviour
         populationChartScript.DisplayPopulations();
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
-            //lineGraphCamera.SetActive(true);
             populationChartCamera.SetActive(true);
         } else if (Input.GetKeyUp(KeyCode.Tab)) {
-            //lineGraphCamera.SetActive(false);
             populationChartCamera.SetActive(false);
         }
     }

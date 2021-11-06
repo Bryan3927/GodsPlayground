@@ -47,25 +47,44 @@ public class TraitHandler : MonoBehaviour
         // {
         //     Debug.LogError("Not enough traits for UI!");
         // }
-        
         List<Trait> roundTraits = new List<Trait>();
+        List<Trait> removedTraits = new List<Trait>();
         int sIndex;
         for (int i=0; i<n; i++){
             if (animal==Species.Rabbit){
                 sIndex=Random.Range(0, bunnyTraits.Count);
                 Debug.Log(sIndex);
                 roundTraits.Add(bunnyTraits[sIndex]);
-                //bunnyTraits.RemoveAt(sIndex);
+                removedTraits.Add(bunnyTraits[sIndex]);
+                bunnyTraits.RemoveAt(sIndex); //prevents choosing of the same trait
+                
             }
             else{
                 sIndex=Random.Range(0, foxTraits.Count);
                 roundTraits.Add(foxTraits[sIndex]);
-                //foxTraits.RemoveAt(sIndex);
+                removedTraits.Add(foxTraits[sIndex]);
+                foxTraits.RemoveAt(sIndex);
             }
            
         }
+        //add back the selected traits into their respective groups; env.upgrade does the removal of the selected trait
 
-     
+        if (animal == Species.Rabbit)
+        {
+            foreach(Trait t in removedTraits)
+            {
+                bunnyTraits.Add(t);
+            }
+        }
+        else
+        {
+            foreach (Trait t in removedTraits)
+            {
+                foxTraits.Add(t);
+            }
+        }
+
+
         return roundTraits;
     }
 }

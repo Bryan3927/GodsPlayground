@@ -27,6 +27,8 @@ public class Lockon : Trait
             {
                 //even if u r neighbors, path being null will not be called by act because it catches neighbors with conditional
                 animal.CreatePath(animal.foodTarget.coord);
+                if (Coord.AreNeighbours(animal.coord, animal.foodTarget.coord)) { Debug.Log("OK SUR"); }
+                if (animal.path == null) { Debug.Log("WTF"); }
             }
             else
             {
@@ -45,6 +47,7 @@ public class Lockon : Trait
                 }
 
                 animal.path = new Coord[] { bestTile };
+                animal.pathIndex = 0;
             }
         }
     }

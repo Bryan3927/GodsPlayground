@@ -5,37 +5,33 @@ using UnityEngine.UI;
 
 public class PopulationChart : MonoBehaviour
 {
-    public int bunnyPopulation;
-    public int foxPopulation;
+    public int bunnyPop;
+    public int foxPop;
     public TextMesh bunnyText;
     public TextMesh foxText;
     private int ogBunnyPop;
     private int ogFoxesPop;
 
-    public void UpdatePopulations(int bunnyPop, int foxPop)
+    public void UpdatePopulations(int bunnyPopulation, int foxPopulation)
     {
         if (ogBunnyPop == 0){
-            ogBunnyPop = bunnyPop;
-            ogFoxesPop = foxPop;
+            ogBunnyPop = bunnyPopulation;
+            ogFoxesPop = foxPopulation;
         }
-        bunnyPopulation = bunnyPop;
-        foxPopulation = foxPop;
+        bunnyPop = bunnyPopulation;
+        foxPop = foxPopulation;
     }
 
     public void DisplayPopulations()
     {
-        bunnyText.text = "" + bunnyPopulation;
-        foxText.text = "" + foxPopulation;
+        bunnyText.text = "" + bunnyPop;
+        foxText.text = "" + foxPop;
 
-        if (bunnyPopulation <= Mathf.Floor(ogBunnyPop / 2) || bunnyPopulation >= ogBunnyPop * 2) {
+        if (bunnyPop / foxPop > (ogBunnyPop / ogFoxesPop) * 1.5 || bunnyPop / foxPop < (ogBunnyPop / ogFoxesPop) * 0.5) {
             bunnyText.color = Color.red;
-        } else {
-            bunnyText.color = Color.white;
-        }
-        
-        if (foxPopulation <= Mathf.Floor(ogFoxesPop / 2) || foxPopulation >= ogFoxesPop * 2) {
             foxText.color = Color.red;
         } else {
+            bunnyText.color = Color.white;
             foxText.color = Color.white;
         }
     }

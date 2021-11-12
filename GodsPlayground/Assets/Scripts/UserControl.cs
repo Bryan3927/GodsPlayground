@@ -6,13 +6,14 @@ public class UserControl : MonoBehaviour
 {
 
     public float lowerLimit = 5;
-    public float upperlimit = 30;
+    public float upperLimit = 40;
 
     public float horizontalSpeed = 10.0f;
     public float verticalSpeed = 10.0f;
     public float zoomSpeed = 20.0f;
     public TerrainGeneration.TerrainGenerator TerrainGenerator;
     public PopulationChart populationChartScript;
+    public Zoom zoom;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +38,7 @@ public class UserControl : MonoBehaviour
         } else if (Input.GetKeyUp(KeyCode.Tab)) {
             populationChartCamera.SetActive(false);
         }
+        zoom.DisplayZoom();
     }
 
     // Helper to move the camera
@@ -50,16 +52,15 @@ public class UserControl : MonoBehaviour
         verticalTranslation *= Time.deltaTime;
         zoomTranslation *= Time.deltaTime;
 
-        float horizontalChange = transform.position.x + horizontalTranslation;
-        float verticalChange = transform.position.z + verticalTranslation;
-        float zoomChange = transform.position.z + zoomTranslation;
-
         transform.Translate(horizontalTranslation, 0, verticalTranslation, Space.World);
         transform.Translate(0, 0, zoomTranslation, Space.Self);
-        if (transform.position.y < lowerLimit)
-        {
+        zoom.SetZoom(transform.position.y + zoomTranslation);
+        if (transform.position.y < lowerLimit) {
             transform.position = new Vector3(transform.position.x, lowerLimit, transform.position.z);
-        } 
-        Debug.Log(transform.position);
+            zoom.SetZoom(lowerLimit);
+        } else if (transform.position.y > upperLimit) {
+            transform.position = new Vector3(transform.position.x, upperLimit, transform.position.z);
+            zoom.SetZoom(upperLimit);
+        }
     }
 }

@@ -14,9 +14,9 @@ public class Plant : LivingEntity {
     public float regenTime;
 
     public bool smartDead = false;
-    public float baseSmartRebirthTime = 4.0f;
+    public float baseSmartRebirthTime = 8.0f;
 
-    public float baseRebirthTime = 8.0f;
+    public float baseRebirthTime = 10.0f;
     public float baseRegenTime = 2.5f;
 
     public override float Consume (float amount) {
@@ -42,7 +42,7 @@ public class Plant : LivingEntity {
         else if (smartDead)
         {
             HandleRegen();
-            if (Time.time - timeOfDeath > rebirthTime)
+            if (Time.time - timeOfDeath > smartRebirthTime)
             {
                 Environment.RegisterBirth(this);
             }

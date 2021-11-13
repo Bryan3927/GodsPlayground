@@ -12,7 +12,7 @@ public class Zoom : MonoBehaviour
 
     private void Start()
     {
-        zoomAmount = (int) ((upperLimit - 20) / (upperLimit - lowerLimit) * 100);
+        zoomAmount = (int) ((upperLimit - 20) / (upperLimit - lowerLimit) * 100); //20 is a starting zoom
         Debug.Log(zoomAmount);
     }
 

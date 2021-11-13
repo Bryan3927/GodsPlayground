@@ -53,14 +53,27 @@ public class UserControl : MonoBehaviour
         zoomTranslation *= Time.deltaTime;
 
         transform.Translate(horizontalTranslation, 0, verticalTranslation, Space.World);
-        transform.Translate(0, 0, zoomTranslation, Space.Self);
+       
         zoom.SetZoom(transform.position.y + zoomTranslation);
         if (transform.position.y < lowerLimit) {
-            transform.position = new Vector3(transform.position.x, lowerLimit, transform.position.z);
+           transform.position = new Vector3(transform.position.x, lowerLimit, transform.position.z);
+            //zoomTranslation = 0;
             zoom.SetZoom(lowerLimit);
         } else if (transform.position.y > upperLimit) {
             transform.position = new Vector3(transform.position.x, upperLimit, transform.position.z);
             zoom.SetZoom(upperLimit);
+            //zoomTranslation = 0;
         }
+        
+        else
+        {
+
+           if (((transform.position.y!=lowerLimit) || (zoomTranslation<=0)) && ((transform.position.y != upperLimit) || (zoomTranslation >= 0)))
+            {
+                transform.Translate(0, 0, zoomTranslation, Space.Self);
+            }
+        }
+        
+        //transform.Translate(0, 0, zoomTranslation, Space.Self);
     }
 }

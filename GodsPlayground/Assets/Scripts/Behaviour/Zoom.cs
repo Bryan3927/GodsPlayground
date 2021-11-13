@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Zoom : MonoBehaviour
 {
     public int zoomAmount;
-    public TextMesh zoomText;
+    public Text zoomText;
     public float lowerLimit = 5;
     public float upperLimit = 40;
 

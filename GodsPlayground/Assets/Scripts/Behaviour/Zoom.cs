@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class Zoom : MonoBehaviour
 {
     public int zoomAmount;
-    public TextMesh zoomText;
+    public Text zoomText;
     public float lowerLimit = 5;
     public float upperLimit = 40;
 
     private void Start()
     {
-        zoomAmount = (int) ((upperLimit - 20) / (upperLimit - lowerLimit) * 100);
+        zoomAmount = (int) ((upperLimit - 20) / (upperLimit - lowerLimit) * 100); //20 is a starting zoom
         Debug.Log(zoomAmount);
     }
 

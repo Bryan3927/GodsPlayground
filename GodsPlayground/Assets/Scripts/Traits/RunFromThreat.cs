@@ -50,6 +50,9 @@ public class RunFromThreat : Trait
             {
                 animal.currentAction = CreatureAction.Exploring;
             }
+        } else
+        {
+            // animal.currentAction = CreatureAction.Exploring;
         }
     }
 

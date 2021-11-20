@@ -15,6 +15,7 @@ public class ConstantsUtility : MonoBehaviour
     public readonly static float baseEatDuration = 10;
 
     public readonly static float baseTimeToGrow = 30.0f;
+    public readonly static float baseAgeRate = 25.0f;
     public readonly static float baseMateTime = 10.0f;
     public readonly static float baseGestationPeriod = 20.0f;
 
@@ -32,6 +33,7 @@ public class ConstantsUtility : MonoBehaviour
         animal.baseEatDuration = baseEatDuration;
 
         animal.baseTimeToGrow = baseTimeToGrow;
+        animal.baseAgeRate = baseAgeRate;
         animal.baseMateTime = baseMateTime;
         animal.baseGestationPeriod = baseGestationPeriod;
 

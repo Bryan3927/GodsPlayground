@@ -26,6 +26,7 @@ public class Animal : LivingEntity {
         drinkDuration,
         eatDuration,
         timeToGrow,
+        ageRate,
         mateTime,
         gestationPeriod,
         mateWaitTime;
@@ -41,6 +42,7 @@ public class Animal : LivingEntity {
         baseDrinkDuration, 
         baseEatDuration,
         baseTimeToGrow,
+        baseAgeRate,
         baseMateTime,
         baseGestationPeriod,
         baseMateWaitTime;
@@ -64,6 +66,8 @@ public class Animal : LivingEntity {
     public float hunger;
     public float thirst;
     public float horny;
+    public int age;
+    private float ageProgress = 0;
 
     public StatsBar hungerBar;
     public StatsBar thirstBar;
@@ -103,6 +107,7 @@ public class Animal : LivingEntity {
         ConstantsUtility.SetConstants(this);
         moveFromCoord = coord;
         genes = Genes.RandomGenes (1);
+        age = 0;
 
         material.color = (genes.isMale) ? maleColour : femaleColour;
 
@@ -130,6 +135,22 @@ public class Animal : LivingEntity {
         hunger += Time.deltaTime * 1 / timeToDeathByHunger;
         thirst += Time.deltaTime * 1 / timeToDeathByThirst;
         if (!pregnant) horny += Time.deltaTime * 1 / timeToDeathByHorny;
+        ageProgress += Time.deltaTime * 1 / ageRate;
+        if (ageProgress >= 1)
+        {
+            age += 1;
+            ageProgress = 0;
+            if (age > 10)
+            {
+                // Starting at age 11, animals have a +20% chance to die at each new age
+                // The highest age an animal can reach is 15
+                float chance = UnityEngine.Random.Range(0, 1.0f);
+                if ((float)(age - 10) * 0.2f > chance)
+                {
+                    Die(CauseOfDeath.Age);
+                }
+            }
+        }
 
         hungerBar.SetStat(hunger);
         thirstBar.SetStat(thirst);
@@ -162,7 +183,7 @@ public class Animal : LivingEntity {
         } else if (horny >= 1)
         {
             horny = 1.0f;
-        }
+        } 
 
         // Resizes baby animals
         if (transform.localScale != Vector3.one)
@@ -550,6 +571,7 @@ public class Animal : LivingEntity {
         eatDuration = baseEatDuration * simSpeedFraction;
 
         timeToGrow = baseTimeToGrow * simSpeedFraction;
+        ageRate = baseAgeRate * simSpeedFraction;
         mateTime = baseMateTime * simSpeedFraction;
         gestationPeriod = baseGestationPeriod * simSpeedFraction;
         mateWaitTime = baseMateWaitTime * simSpeedFraction;

@@ -10,7 +10,7 @@ public class StatsBar : MonoBehaviour
 
     public void SetMaxStat() => slider.maxValue = 1;
 
-    public void SetStat(float stat) => slider.value = stat;
+    public void SetStat(float stat) => slider.value = (1 - stat);
 
     private void Update()
     {

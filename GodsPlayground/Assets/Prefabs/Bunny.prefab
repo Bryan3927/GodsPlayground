@@ -1120,10 +1120,22 @@ MonoBehaviour:
   mapCoord:
     x: 0
     y: 0
+  maxViewDistance: 10
   diet: 2
   currentAction: 0
   maleColour: {r: 0, g: 0, b: 0, a: 0}
   femaleColour: {r: 0, g: 0, b: 0, a: 0}
+  timeBetweenActionChoices: 0
+  moveSpeed: 0
+  timeToDeathByHunger: 0
+  timeToDeathByThirst: 0
+  timeToDeathByHorny: 0
+  drinkDuration: 0
+  eatDuration: 0
+  timeToGrow: 0
+  mateTime: 0
+  gestationPeriod: 0
+  mateWaitTime: 0
   baseTimeBetweenActionChoices: 0
   baseMoveSpeed: 0
   baseTimeToDeathByHunger: 0
@@ -1134,6 +1146,9 @@ MonoBehaviour:
   baseTimeToGrow: 0
   baseMateTime: 0
   baseGestationPeriod: 0
+  baseMateWaitTime: 0
+  criticalPercent: 0.7
+  pregnant: 0
   isMale: 0
   hunger: 0
   thirst: 0
@@ -1141,6 +1156,12 @@ MonoBehaviour:
   hungerBar: {fileID: 3417804876760264541}
   thirstBar: {fileID: 1785598733449027140}
   hornyBar: {fileID: 8683773290805122443}
+  foodTarget: {fileID: 0}
+  mateTarget: {fileID: 0}
+  traits: []
+  path: []
+  pathIndex: 0
+  target: 0
 --- !u!1 &8782290883988580837
 GameObject:
   m_ObjectHideFlags: 0

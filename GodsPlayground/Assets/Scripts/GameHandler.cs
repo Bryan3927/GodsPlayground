@@ -10,12 +10,16 @@ public class GameHandler : MonoBehaviour
     public Environment environment;
     public Timer timer;
     public TraitHandler traitHandler;
+    public Text totalRounds;
+    public Text currentRound;
 
     private List<GameObject> cards = new List<GameObject>();
 
     float gameStartTime;
     float waitTime = 50.0f;
     float lastSimSpeed;
+    int currentRoundCounter = 1;
+    int totalRoundsCounter = 5;
 
     private int activeTimeStep = 0;
     private int numTraitsPerRound = 3;
@@ -33,6 +37,8 @@ public class GameHandler : MonoBehaviour
         UI.SetActive(false);
         gameStartTime = Time.time;
         timer.SetTimer(waitTime);
+        currentRound.text = "" + currentRoundCounter + "/";
+        totalRounds.text = "" + totalRoundsCounter;
     }
 
     // Update is called once per frame
@@ -109,6 +115,8 @@ public class GameHandler : MonoBehaviour
         gameStartTime = Time.time;
         timer.SetTimer(waitTime);
         timer.StartTimer();
+        currentRoundCounter += 1;
+        currentRound.text = "" + currentRoundCounter + "/";
     }
 
     private List<Trait> DecideNextTraits()

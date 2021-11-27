@@ -147,7 +147,9 @@ public class GameHandler : MonoBehaviour
         {
             Trait trait = roundTraits[i];
             Text traitName = cards[i].transform.GetChild(0).GetComponentInChildren<Text>(); //test ui obj
+            Text traitDescription = cards[i].transform.GetChild(2).GetComponentInChildren<Text>();
             traitName.text = trait.Name;
+            traitDescription.text = trait.Description;
 
             Button chooseButton = cards[i].transform.GetChild(1).GetComponent<Button>();
             chooseButton.onClick.AddListener(delegate { environment.Upgrade(animalTurn, trait); });

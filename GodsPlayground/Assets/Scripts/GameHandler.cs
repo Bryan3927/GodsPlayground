@@ -155,5 +155,5 @@ public class GameHandler : MonoBehaviour
             chooseButton.onClick.AddListener(delegate { environment.Upgrade(animalTurn, trait); });
             chooseButton.onClick.AddListener(delegate { this.StartNextRound(); });
         }
-    } 
+    }
 }

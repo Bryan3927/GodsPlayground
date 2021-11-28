@@ -122,7 +122,7 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         if (Input.GetKeyDown("r"))
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         }
     }
 

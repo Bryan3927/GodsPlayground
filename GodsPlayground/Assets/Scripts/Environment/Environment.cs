@@ -65,7 +65,10 @@ public class Environment : MonoBehaviour {
         Init ();
         SpawnInitialPopulations();
         // UpgradeBunnies();
-        populationChart.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
+        if (populationChart!= null) {
+            populationChart.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
+        }
+        
     }
 
     void OnDrawGizmos () {
@@ -85,7 +88,10 @@ public class Environment : MonoBehaviour {
         if (worldClock > updateTime)
         {
             //Debug.Log("Updating graph");
-            populationChart.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
+            if (populationChart != null)
+            {
+                populationChart.UpdatePopulations(allEntities[Species.Rabbit].Count, allEntities[Species.Fox].Count);
+            }
             updateTime += updateIncrement;
         }
     }

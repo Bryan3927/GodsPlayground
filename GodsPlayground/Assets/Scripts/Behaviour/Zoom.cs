@@ -13,7 +13,6 @@ public class Zoom : MonoBehaviour
     private void Start()
     {
         zoomAmount = (int) ((upperLimit - 20) / (upperLimit - lowerLimit) * 100); //20 is a starting zoom
-        Debug.Log(zoomAmount);
     }
 
     public void SetZoom(float zoom)
@@ -24,6 +23,5 @@ public class Zoom : MonoBehaviour
     public void DisplayZoom()
     {
         zoomText.text = "" + zoomAmount + "%";
-        Debug.Log(zoomText.text);
     }
 }

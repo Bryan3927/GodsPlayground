@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -26,12 +27,15 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private int numTraitsPerRound = 3;
     private Species animalTurn = Species.Rabbit; //default Rabbit
 
+    bool lost = false;
+    float lostTime;
+
     // Start is called before the first frame update
     void Start()
     {
-        cards.Add(UI.transform.GetChild(0).gameObject);
         cards.Add(UI.transform.GetChild(1).gameObject);
         cards.Add(UI.transform.GetChild(2).gameObject);
+        cards.Add(UI.transform.GetChild(3).gameObject);
 
         traitHandler = new GameObject().AddComponent<TraitHandler>();
 
@@ -46,7 +50,24 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void Update()
     {
         timer.DisplayTime();
-        if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy)
+        if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && currentRoundCounter == totalRoundsCounter)
+        {
+            if (Environment.allEntities[Species.Fox].Count > 0 && !lost)
+            {
+                lost = true;
+                lostTime = Time.time;
+                Environment.SetSimSpeed(0);
+                UI.SetActive(true);
+                UI.transform.GetChild(1).gameObject.SetActive(false);
+                UI.transform.GetChild(2).gameObject.SetActive(false);
+                UI.transform.GetChild(3).gameObject.SetActive(false);
+                UI.transform.GetChild(4).gameObject.SetActive(false);
+            } else
+            {
+                // WIN CONDITION
+            }
+        }
+        if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && !lost)
         {
             activeTimeStep++;
             lastSimSpeed = Environment.GetSimSpeed();
@@ -57,7 +78,7 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             List<Trait> nextTraits = DecideNextTraits();
             FormatUI(nextTraits);
 
-            Text animalText = UI.transform.GetChild(3).GetComponent<Text>();
+            Text animalText = UI.transform.GetChild(4).GetComponent<Text>();
             if (animalTurn == Species.Rabbit) {
                 animalText.text = "Bunnies";
             } else if (animalTurn == Species.Fox) {
@@ -88,6 +109,20 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 }
             }
 
+        }
+        
+        if (lost)
+        {
+            float a = Mathf.Clamp01(((Time.time - lostTime) / 5.0f));
+            RawImage im = UI.GetComponentInChildren<RawImage>();
+            Color tempColor = im.color;
+            tempColor.a = a;
+            im.color = tempColor;
+        }
+
+        if (Input.GetKeyDown("r"))
+        {
+            SceneManager.LoadScene(1);
         }
     }
 

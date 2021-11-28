@@ -15,6 +15,8 @@ public class LivingEntity : MonoBehaviour {
 
     protected bool dead;
 
+    public GameObject death;
+
     public virtual void Init (Coord coord) {
         this.coord = coord;
         transform.position = Environment.tileCentres[coord.x, coord.y];
@@ -37,6 +39,26 @@ public class LivingEntity : MonoBehaviour {
 
     protected virtual void Die (CauseOfDeath cause) {
         if (!dead) {
+            GameObject deathParticles = Instantiate(death);
+            deathParticles.transform.position = this.coord;
+            Death particles = deathParticles.GetComponent<Death>();
+            switch (cause)
+            {
+                case CauseOfDeath.Eaten:
+                    particles.Init(Color.black);
+                    break;
+                case CauseOfDeath.Age:
+                    particles.Init(Color.black);
+                    break;
+                case CauseOfDeath.Hunger:
+                case CauseOfDeath.Thirst:
+                    particles.Init(Color.black);
+                    break;
+                default:
+                    particles.Init(Color.black);
+                    break;
+            }
+                
             dead = true;
             Environment.RegisterDeath (this);
             Destroy (gameObject);

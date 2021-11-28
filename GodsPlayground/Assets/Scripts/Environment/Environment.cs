@@ -454,6 +454,10 @@ public class Environment : MonoBehaviour {
 
                 var entity = Instantiate (pop.prefab);
                 entity.Init (coord);
+                if (entity is Animal)
+                {
+                    ((Animal)entity).birthParticles.Stop();
+                }
 
                 speciesMaps[entity.species].Add (entity, coord);
                 if (!allEntities.ContainsKey(entity.species))

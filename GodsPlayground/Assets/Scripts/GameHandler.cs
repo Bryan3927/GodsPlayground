@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class GameHandler : MonoBehaviour
+public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
     public GameObject UI;
@@ -147,11 +148,27 @@ public class GameHandler : MonoBehaviour
         {
             Trait trait = roundTraits[i];
             Text traitName = cards[i].transform.GetChild(0).GetComponentInChildren<Text>(); //test ui obj
+            Text traitDescription = cards[i].transform.GetChild(2).GetComponentInChildren<Text>();
             traitName.text = trait.Name;
+            traitDescription.text = trait.Description;
 
             Button chooseButton = cards[i].transform.GetChild(1).GetComponent<Button>();
             chooseButton.onClick.AddListener(delegate { environment.Upgrade(animalTurn, trait); });
             chooseButton.onClick.AddListener(delegate { this.StartNextRound(); });
         }
-    } 
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Text traitName = cards[0].transform.GetChild(0).GetComponentInChildren<Text>();
+        traitName.color = Color.red;
+        Debug.Log("ran");
+        Debug.Log(eventData);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Text traitName = cards[0].transform.GetChild(0).GetComponentInChildren<Text>();
+        traitName.color = Color.white;
+    }
 }

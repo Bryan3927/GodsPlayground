@@ -26,13 +26,16 @@ public class PopulationChart : MonoBehaviour
     {
         bunnyText.text = "" + bunnyPop;
         foxText.text = "" + foxPop;
+        // var epsilon = 0.01f;
 
-        if (bunnyPop / foxPop > (ogBunnyPop / ogFoxesPop) * 1.5 || bunnyPop / foxPop < (ogBunnyPop / ogFoxesPop) * 0.5) {
+        /**
+        if (bunnyPop / (foxPop + epsilon) > (ogBunnyPop / ogFoxesPop) * 1.5 || bunnyPop / (foxPop + epsilon) < (ogBunnyPop / ogFoxesPop) * 0.5) {
             bunnyText.color = Color.red;
             foxText.color = Color.red;
         } else {
             bunnyText.color = Color.white;
             foxText.color = Color.white;
         }
+        */
     }
 }

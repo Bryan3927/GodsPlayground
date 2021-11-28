@@ -15,6 +15,8 @@ public class Animal : LivingEntity {
     public Color maleColour;
     public Color femaleColour;
 
+    public ParticleSystem birthParticles;
+
     // Virtual settings after being multiplied by Sim Speed
     [HideInInspector]
     public float 
@@ -113,6 +115,8 @@ public class Animal : LivingEntity {
 
         isMale = genes.isMale;
 
+        birthParticles.Play();
+
         hungerBar.SetMaxStat();
         thirstBar.SetMaxStat();
         hornyBar.SetMaxStat();
@@ -150,6 +154,10 @@ public class Animal : LivingEntity {
                     Die(CauseOfDeath.Age);
                 }
             }
+        }
+        if (age == 0 && ageProgress >= 0.5 && birthParticles.isEmitting)
+        {
+            birthParticles.Stop();
         }
 
         hungerBar.SetStat(hunger);

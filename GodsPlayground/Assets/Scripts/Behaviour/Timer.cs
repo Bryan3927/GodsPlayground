@@ -44,6 +44,6 @@ public class Timer : MonoBehaviour
 
     public void DisplayTime()
     {
-        timeText.text = "" + Mathf.Round(timeRemaining * 100f) / 100f;
+        timeText.text = "" + Mathf.Round(timeRemaining);
     }
 }

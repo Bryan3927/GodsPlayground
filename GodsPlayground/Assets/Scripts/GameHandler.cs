@@ -27,103 +27,133 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private int numTraitsPerRound = 3;
     private Species animalTurn = Species.Rabbit; //default Rabbit
 
+    bool start = false;
     bool lost = false;
-    float lostTime;
+    bool won = false;
+    float fadeOffset = 4.0f;
+    float fadeTimer;
 
     // Start is called before the first frame update
     void Start()
     {
-        cards.Add(UI.transform.GetChild(1).gameObject);
         cards.Add(UI.transform.GetChild(2).gameObject);
         cards.Add(UI.transform.GetChild(3).gameObject);
+        cards.Add(UI.transform.GetChild(4).gameObject);
 
         traitHandler = new GameObject().AddComponent<TraitHandler>();
 
-        UI.SetActive(false);
-        gameStartTime = Time.time;
-        timer.SetTimer(waitTime);
-        currentRound.text = "" + currentRoundCounter + "/";
-        totalRounds.text = "" + totalRoundsCounter;
+        start = true; // Commence start state
+        fadeTimer = Time.time;
+        TurnOffCards();
+        lastSimSpeed = Environment.GetSimSpeed();
+        Environment.SetSimSpeed(0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer.DisplayTime();
-        if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && currentRoundCounter == totalRoundsCounter)
+        if (start)
         {
-            if (Environment.allEntities[Species.Fox].Count > 0 && !lost)
+            
+
+            if (Time.time - fadeTimer < fadeOffset)
             {
-                lost = true;
-                lostTime = Time.time;
-                Environment.SetSimSpeed(0);
-                UI.SetActive(true);
-                UI.transform.GetChild(1).gameObject.SetActive(false);
-                UI.transform.GetChild(2).gameObject.SetActive(false);
-                UI.transform.GetChild(3).gameObject.SetActive(false);
-                UI.transform.GetChild(4).gameObject.SetActive(false);
+                FadeInMessage(1, 3.0f);
+            } else if (Time.time - fadeTimer < 2 * fadeOffset)
+            {
+                FadeOutMessage(1, 3.0f);
             } else
             {
-                // WIN CONDITION
+                start = false;
+                TurnOnCards();
+                UI.SetActive(false);
+                gameStartTime = Time.time;
+                timer.SetTimer(waitTime);
+                timer.StartTimer();
+                currentRound.text = "" + currentRoundCounter + "/";
+                totalRounds.text = "" + totalRoundsCounter;
+                Environment.SetSimSpeed(lastSimSpeed);
             }
-        }
-        if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && !lost)
+        } else
         {
-            activeTimeStep++;
-            lastSimSpeed = Environment.GetSimSpeed();
-            Environment.SetSimSpeed(0);
-
-            //Debug.Log("Num of Bunnies: " + Environment.allEntities[Species.Rabbit].Count + " and Num of Foxes: " + Environment.allEntities[Species.Fox].Count);
-
-            List<Trait> nextTraits = DecideNextTraits();
-            FormatUI(nextTraits);
-
-            Text animalText = UI.transform.GetChild(4).GetComponent<Text>();
-            if (animalTurn == Species.Rabbit) {
-                animalText.text = "Bunnies";
-            } else if (animalTurn == Species.Fox) {
-                animalText.text = "Foxes";
-            } 
-            UI.SetActive(true);
-
-            Species mutateTurn;
-
-            //switching animals
-            if (animalTurn == Species.Rabbit)
+            timer.DisplayTime();
+            if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && currentRoundCounter == totalRoundsCounter)
             {
-                mutateTurn = Species.Fox;
-            }
-            else
-            {
-                mutateTurn = Species.Rabbit;
-            }
-
-
-            //mutations (here because its slow)
-            foreach (LivingEntity livingEntity in Environment.allEntities[mutateTurn])
-            {
-                Animal animal = ((Animal)livingEntity);
-                foreach (Trait t in animal.traits)
+                if (Environment.allEntities[Species.Fox].Count > 0 && !lost)
                 {
-                    t.Mutate();
+                    lost = true;
+                    fadeTimer = Time.time;
+                    Environment.SetSimSpeed(0);
+                    UI.SetActive(true);
+                    TurnOffCards();
+                }
+                else
+                {
+                    won = true;
+                    fadeTimer = Time.time;
+                    Environment.SetSimSpeed(0);
+                    UI.SetActive(true);
+                    TurnOffCards();
                 }
             }
+            if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && !lost)
+            {
+                activeTimeStep++;
+                lastSimSpeed = Environment.GetSimSpeed();
+                Environment.SetSimSpeed(0);
 
+                //Debug.Log("Num of Bunnies: " + Environment.allEntities[Species.Rabbit].Count + " and Num of Foxes: " + Environment.allEntities[Species.Fox].Count);
+
+                List<Trait> nextTraits = DecideNextTraits();
+                FormatUI(nextTraits);
+
+                Text animalText = UI.transform.GetChild(5).GetComponent<Text>();
+                if (animalTurn == Species.Rabbit)
+                {
+                    animalText.text = "Bunnies";
+                }
+                else if (animalTurn == Species.Fox)
+                {
+                    animalText.text = "Foxes";
+                }
+                UI.SetActive(true);
+
+                Species mutateTurn;
+
+                //switching animals
+                if (animalTurn == Species.Rabbit)
+                {
+                    mutateTurn = Species.Fox;
+                }
+                else
+                {
+                    mutateTurn = Species.Rabbit;
+                }
+
+
+                //mutations (here because its slow)
+                foreach (LivingEntity livingEntity in Environment.allEntities[mutateTurn])
+                {
+                    Animal animal = ((Animal)livingEntity);
+                    foreach (Trait t in animal.traits)
+                    {
+                        t.Mutate();
+                    }
+                }
+
+            }
+
+            if (lost)
+            {
+                FadeInMessage(0);
+            }
+
+            if (Input.GetKeyDown("r"))
+            {
+                SceneManager.LoadScene(2);
+            }
         }
         
-        if (lost)
-        {
-            float a = Mathf.Clamp01(((Time.time - lostTime) / 5.0f));
-            RawImage im = UI.GetComponentInChildren<RawImage>();
-            Color tempColor = im.color;
-            tempColor.a = a;
-            im.color = tempColor;
-        }
-
-        if (Input.GetKeyDown("r"))
-        {
-            SceneManager.LoadScene(2);
-        }
     }
 
     public void StartNextRound()
@@ -191,6 +221,51 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             chooseButton.onClick.AddListener(delegate { environment.Upgrade(animalTurn, trait); });
             chooseButton.onClick.AddListener(delegate { this.StartNextRound(); });
         }
+    }
+
+    private void TurnOffCards()
+    {
+        UI.transform.GetChild(2).gameObject.SetActive(false);
+        UI.transform.GetChild(3).gameObject.SetActive(false);
+        UI.transform.GetChild(4).gameObject.SetActive(false);
+        UI.transform.GetChild(5).gameObject.SetActive(false);
+    }
+    
+    private void TurnOnCards()
+    {
+        UI.transform.GetChild(2).gameObject.SetActive(true);
+        UI.transform.GetChild(3).gameObject.SetActive(true);
+        UI.transform.GetChild(4).gameObject.SetActive(true);
+        UI.transform.GetChild(5).gameObject.SetActive(true);
+    }
+
+    // set fadeTimer to Time.time before calling
+    private bool FadeInMessage(int index, float time = 5.0f)
+    {
+        float a = Mathf.Clamp01(((Time.time - fadeTimer) / time));
+        RawImage im = UI.transform.GetChild(index).GetComponent<RawImage>();
+        Color tempColor = im.color;
+        tempColor.a = a;
+        im.color = tempColor;
+        if (a == 1)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool FadeOutMessage(int index, float time = 5.0f)
+    {
+        float a = (1 - Mathf.Clamp01((((Time.time - fadeTimer) - fadeOffset) / time)));
+        RawImage im = UI.transform.GetChild(index).GetComponent<RawImage>();
+        Color tempColor = im.color;
+        tempColor.a = a;
+        im.color = tempColor;
+        if (a == 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

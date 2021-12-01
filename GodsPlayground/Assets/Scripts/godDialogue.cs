@@ -44,17 +44,23 @@ public class godDialogue : MonoBehaviour
 
             if (dialogueIndex >= dialogue.Length)
             {
-                SceneManager.LoadScene(1);
+                //SceneManager.LoadScene(1);
+                LevelLoader.LoadLevel_static(1);
             }
 
-            if (dialogueIndex == dialogue.Length-1)
-            {
-                textWriterSingle = TextWriter.AddWriter_static(messageText, dialogue[dialogueIndex], .15f, true, true);
-            }
             else
             {
-                textWriterSingle = TextWriter.AddWriter_static(messageText, dialogue[dialogueIndex], .05f, true, true);
+                if (dialogueIndex == dialogue.Length - 1)
+                {
+                    textWriterSingle = TextWriter.AddWriter_static(messageText, dialogue[dialogueIndex], .15f, true, true);
+                }
+                else
+                {
+                    textWriterSingle = TextWriter.AddWriter_static(messageText, dialogue[dialogueIndex], .05f, true, true);
+                }
             }
+
+            
                 
         }
     }

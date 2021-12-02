@@ -11,7 +11,8 @@ public class godDialogue : MonoBehaviour
     private Text messageText;
     private TextWriter.TextWriterSingle textWriterSingle;
     private string[] dialogue = new string[] {
-        "My child I am going away ... on vacation",
+        "My child I am going away..." ,
+        "...on vacation",
         "But I shall bestow you some of my powers",
         "Maintain order over this ecosystem. I'll be back in a few days",
         "Don't fuck it up",

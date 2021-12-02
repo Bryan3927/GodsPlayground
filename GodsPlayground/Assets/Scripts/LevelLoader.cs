@@ -18,10 +18,10 @@ public class LevelLoader : MonoBehaviour
 
     private void Update()
     {
-        if (transition.GetCurrentAnimatorStateInfo(0).IsName("idle"))
-        {
-            UI.transform.Find("crossfade").gameObject.SetActive(false);
-        }
+       // if (transition.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+       // {
+       //     UI.transform.Find("crossfade").gameObject.SetActive(false);
+       // }
     }
 
     public static void LoadLevel_static(int scene_index)

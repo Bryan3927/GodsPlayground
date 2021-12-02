@@ -81,19 +81,17 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             {
                 if (Environment.allEntities[Species.Fox].Count > 0 && !lost)
                 {
+                    LevelLoader.LoadLevel_static(3); // Load lose scene
                     lost = true;
-                    fadeTimer = Time.time;
-                    Environment.SetSimSpeed(0);
-                    UI.SetActive(true);
-                    TurnOffCards();
+                    //fadeTimer = Time.time;
+                    //Environment.SetSimSpeed(0);
+                    //UI.SetActive(true);
+                    //TurnOffCards();
                 }
                 else
                 {
+                    LevelLoader.LoadLevel_static(4); // Load win scene
                     won = true;
-                    fadeTimer = Time.time;
-                    Environment.SetSimSpeed(0);
-                    UI.SetActive(true);
-                    TurnOffCards();
                 }
             }
             if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && !lost)
@@ -141,11 +139,6 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                     }
                 }
 
-            }
-
-            if (lost)
-            {
-                FadeInMessage(0);
             }
 
             if (Input.GetKeyDown("r"))

@@ -16,7 +16,7 @@ public class StatsBar : MonoBehaviour
     private void Update()
     {
         Scene currentScene = SceneManager.GetActiveScene();
-        if (currentScene.name != "intro")
+        if (currentScene.name != "main_menu")
         {
             this.transform.LookAt(Camera.main.transform);
             if (Vector3.Distance(this.transform.position, Camera.main.transform.position) < 10.0f)

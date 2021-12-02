@@ -36,9 +36,9 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     // Start is called before the first frame update
     void Start()
     {
-        cards.Add(UI.transform.GetChild(2).gameObject);
         cards.Add(UI.transform.GetChild(3).gameObject);
         cards.Add(UI.transform.GetChild(4).gameObject);
+        cards.Add(UI.transform.GetChild(5).gameObject);
 
         traitHandler = new GameObject().AddComponent<TraitHandler>();
 
@@ -107,7 +107,7 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 List<Trait> nextTraits = DecideNextTraits();
                 FormatUI(nextTraits);
 
-                Text animalText = UI.transform.GetChild(5).GetComponentInChildren<Text>();
+                Text animalText = UI.transform.GetChild(2).GetComponentInChildren<Text>();
                 if (animalTurn == Species.Rabbit)
                 {
                     animalText.text = "Bunnies";
@@ -173,7 +173,7 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         foreach (GameObject card in cards)
         {
-            Button chooseButton = card.transform.GetChild(1).GetComponentInChildren<Button>();
+            Button chooseButton = card.transform.GetChild(2).GetComponentInChildren<Button>();
             chooseButton.onClick.RemoveAllListeners();
         }
         UI.SetActive(false);
@@ -212,12 +212,12 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         for (int i = 0; i < roundTraits.Count; i++)
         {
             Trait trait = roundTraits[i];
-            Text traitName = cards[i].transform.GetChild(0).GetComponentInChildren<Text>(); //test ui obj
-            Text traitDescription = cards[i].transform.GetChild(2).GetComponentInChildren<Text>();
+            Text traitName = cards[i].transform.GetChild(1).GetComponentInChildren<Text>(); //test ui obj
+            Text traitDescription = cards[i].transform.GetChild(3).GetComponentInChildren<Text>();
             traitName.text = trait.Name;
             traitDescription.text = trait.Description;
 
-            Button chooseButton = cards[i].transform.GetChild(1).GetComponent<Button>();
+            Button chooseButton = cards[i].transform.GetChild(2).GetComponent<Button>();
             chooseButton.onClick.AddListener(delegate { environment.Upgrade(animalTurn, trait); });
             chooseButton.onClick.AddListener(delegate { this.StartNextRound(); });
         }

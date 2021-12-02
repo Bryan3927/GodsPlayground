@@ -107,7 +107,7 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 List<Trait> nextTraits = DecideNextTraits();
                 FormatUI(nextTraits);
 
-                Text animalText = UI.transform.GetChild(5).GetComponent<Text>();
+                Text animalText = UI.transform.GetChild(5).GetComponentInChildren<Text>();
                 if (animalTurn == Species.Rabbit)
                 {
                     animalText.text = "Bunnies";

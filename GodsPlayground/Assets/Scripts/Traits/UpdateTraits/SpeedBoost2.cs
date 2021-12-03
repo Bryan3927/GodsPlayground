@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpeedBoost2 : Trait
 {
-    public override string Name => "SpeedBoostv2";
+    public override string Name => "Speed Boost v2";
 
     public override string Description => "Increases base speed by 50%";
 

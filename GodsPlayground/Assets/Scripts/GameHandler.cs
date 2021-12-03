@@ -173,7 +173,7 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         foreach (GameObject card in cards)
         {
-            Button chooseButton = card.transform.GetChild(2).GetComponentInChildren<Button>();
+            Button chooseButton = card.transform.GetChild(3).GetComponentInChildren<Button>();
             chooseButton.onClick.RemoveAllListeners();
         }
         UI.SetActive(false);
@@ -213,11 +213,11 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         {
             Trait trait = roundTraits[i];
             Text traitName = cards[i].transform.GetChild(1).GetComponentInChildren<Text>(); //test ui obj
-            Text traitDescription = cards[i].transform.GetChild(3).GetComponentInChildren<Text>();
+            Text traitDescription = cards[i].transform.GetChild(2).GetComponentInChildren<Text>();
             traitName.text = trait.Name;
             traitDescription.text = trait.Description;
 
-            Button chooseButton = cards[i].transform.GetChild(2).GetComponent<Button>();
+            Button chooseButton = cards[i].transform.GetChild(3).GetComponent<Button>();
             chooseButton.onClick.AddListener(delegate { environment.Upgrade(animalTurn, trait); });
             chooseButton.onClick.AddListener(delegate { this.StartNextRound(); });
         }

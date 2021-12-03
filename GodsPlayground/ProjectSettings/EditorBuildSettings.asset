@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/level_1.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/lose_sceen_dialogue.unity
+    guid: eb56af5936e3f164285d330608199afe
+  - enabled: 1
+    path: Assets/Scenes/win_scene_dialogue.unity
+    guid: c25edb6732bf16a44b486754acb2ab97
   m_configObjects: {}

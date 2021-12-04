@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -139,10 +140,17 @@ public class Map {
             // If this entity is not last in the list, put the last entity in its place
             if (index != lastElementIndex)
             {
-                // Debug.Log(String.Format("Trying to access map[{0}, {1}][{2}]", regionX, regionY, index));
-                // Debug.Log(String.Format("Map length: {0}", map[regionX, regionY].Count ));
-                map[regionX, regionY][index] = map[regionX, regionY][lastElementIndex];
-                map[regionX, regionY][index].mapIndex = e.mapIndex;
+                try
+                {
+                    // Debug.Log(String.Format("Trying to access map[{0}, {1}][{2}]", regionX, regionY, index));
+                    // Debug.Log(String.Format("Map length: {0}", map[regionX, regionY].Count ));
+                    map[regionX, regionY][index] = map[regionX, regionY][lastElementIndex];
+                    map[regionX, regionY][index].mapIndex = e.mapIndex;
+                } catch (Exception)
+                {
+                    Debug.LogError(String.Format("Tried to access map[{0}, {1}][{2}] when error ocurred", regionX, regionY, index));
+                }
+                
             }
             // Remove last entity from the list
             map[regionX, regionY].RemoveAt(lastElementIndex);

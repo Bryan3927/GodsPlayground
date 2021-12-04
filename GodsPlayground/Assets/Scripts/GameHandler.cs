@@ -94,7 +94,7 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                     won = true;
                 }
             }
-            if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && !lost)
+            if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && !lost && !won)
             {
                 activeTimeStep++;
                 lastSimSpeed = Environment.GetSimSpeed();

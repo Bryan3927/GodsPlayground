@@ -18,7 +18,7 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private List<GameObject> cards = new List<GameObject>();
 
     float gameStartTime;
-    float waitTime = 50.0f;
+    float waitTime = 50.0f * 2.0f / 3.0f;
     float lastSimSpeed;
     int currentRoundCounter = 1;
     int totalRoundsCounter = 5;
@@ -47,6 +47,10 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         TurnOffCards();
         lastSimSpeed = Environment.GetSimSpeed();
         Environment.SetSimSpeed(0);
+
+        timer.SetTimer(waitTime);
+        timer.DisplayTime();
+
     }
 
     // Update is called once per frame
@@ -77,7 +81,11 @@ public class GameHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         } else
         {
             timer.DisplayTime();
-            if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && currentRoundCounter == totalRoundsCounter)
+            if (Environment.allEntities[Species.Fox].Count == 0 && !lost)
+            {
+                LevelLoader.LoadLevel_static(4);
+                won = true;
+            } else if (Time.time - gameStartTime > waitTime && !UI.activeInHierarchy && currentRoundCounter == totalRoundsCounter)
             {
                 if (Environment.allEntities[Species.Fox].Count > 0 && !lost)
                 {

@@ -10,6 +10,7 @@ public class Menu : MonoBehaviour
     public GameObject UI;
     Transform mainMenu;
     Transform ctrls;
+    Transform credits;
 
 
     void Start()
@@ -20,15 +21,19 @@ public class Menu : MonoBehaviour
         mainMenu = UI.transform.GetChild(0);
         mainMenu.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { this.ShowControls(); });
         mainMenu.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { this.StartGame(); });
-
+        mainMenu.GetChild(2).GetComponent<Button>().onClick.AddListener(delegate { this.ShowCredits(); });
 
         //extract ctrls and add listeners to buttons
         ctrls = UI.transform.GetChild(1);
-        ctrls.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { this.ShowMenu(ctrls); });
+        ctrls.GetComponentInChildren<Button>().onClick.AddListener(delegate { this.ShowMenu(ctrls); });
 
+        //extract credits and add listeners to buttons
+        credits = UI.transform.GetChild(2);
+        credits.GetComponentInChildren<Button>().onClick.AddListener(delegate { this.ShowMenu(credits); });
 
         //set other still frames invisible
         ctrls.gameObject.SetActive(false);
+        credits.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -44,6 +49,11 @@ public class Menu : MonoBehaviour
        ctrls.gameObject.SetActive(true);
     }
 
+    public void ShowCredits()
+    {
+        mainMenu.gameObject.SetActive(false);
+        credits.gameObject.SetActive(true);
+    }
 
     public void ShowMenu(Transform currentFrame)
     {
